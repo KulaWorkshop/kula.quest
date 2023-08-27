@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #131313;
+}
+
+.title {
+    font-family: Frutiger, sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    text-align: center;
+    margin-top: 120px;
+}
+
+.description {
+    font-family: 'Poppins', sans-serif;
+    color: #616161;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.highlight {
+    font-weight: medium;
+    color: #ffd27f;
+}
+
+@font-face {
+    font-family: Frutiger;
+    src: url(Frutiger-Bold\ Regular.ttf);
+}

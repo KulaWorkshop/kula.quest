@@ -12,24 +12,37 @@ body {
     background: #131313;
 }
 
+.container {
+    text-align: center;
+    margin-top: 120px;
+}
+
 .title {
     font-family: Frutiger, sans-serif;
     font-size: 2rem;
     color: #fff;
-    text-align: center;
-    margin-top: 120px;
 }
 
 .description {
     font-family: 'Poppins', sans-serif;
     color: #616161;
-    text-align: center;
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .highlight {
-    font-weight: medium;
     color: #ffd27f;
+    font-weight: medium;
+}
+
+.link {
+    font-family: 'Poppins', sans-serif;
+    color: #c43f3f;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #a83939;
 }
 
 @font-face {

@@ -43,10 +43,10 @@ Technical documentation is available for most of Kula Quest's custom binary form
 <div class="grid">
     <CardLink title="Pak Format" description="An archive format for storing multiple files." link="/formats/pak" />
     <CardLink title="Kub Format" description="An archive format for storing multiple files in the oldest demo." link="/formats/kub" />
-    <CardLink title="TGI Format" description="A custom binary format for storing theme information." link="/formats/tgi" />
+    <CardLink title="TGI Format" category="In Progress" description="A custom binary format for storing theme information." link="/formats/tgi" />
     <CardLink title="GGI Format" description="A custom binary format for storing model and sprite information." link="/formats/ggi" />
-    <CardLink title="SFX Format" description="A custom binary format for storing sound information." link="/formats/sfx" />
     <CardLink title="Level Format" description="A custom binary format for storing level data." link="/formats/level" />
+    <CardLink title="SFX Format" category="In Progress" description="A custom binary format for storing sound information." link="/formats/sfx" />
 </div>
 
 <style scoped>

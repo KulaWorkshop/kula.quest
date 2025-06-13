@@ -2,6 +2,12 @@
 
 A custom binary format for storing level information.
 
+<div class="warning custom-block" style="padding-top: 8px">
+
+This format is still under heavy research!
+
+</div>
+
 <div class="tip custom-block" style="padding-top: 8px">
 
 This document contains information about the format structure of level files.
@@ -11,12 +17,19 @@ If you are interested in using tools to create your own, please visit [here](htt
 
 ## Overview
 
-Kula World uses a custom binary format for storing level data. This format does not have its own extension, and is mostly the same across all versions of the games with slight differences.
+Kula Quest uses a custom binary format for storing level data. This format does not have its own extension, and is mostly the same across all versions of the games with slight differences.
 
 -   This format uses [**little endian**](https://en.wikipedia.org/wiki/Endianness).
 -   Every value in this format is read as a 2 byte signed integer. `(int16_t)`
 
 ### Structure
+
+The format is comprised of the following structure:
+
+-   Block types
+-   The amount of blocks and property count
+-   Block properties
+-   Optional level metadata
 
 ```c
 struct LevelFile_t {
@@ -24,6 +37,7 @@ struct LevelFile_t {
     short blockCount;
     short padding;
     short propertyCount;
+    char properties[];
 };
 ```
 
@@ -39,13 +53,17 @@ The first **0x13310** bytes of the file represent the block data and indicate wh
 
 Knowing that every block is represented as a signed 2 byte short, and it's position in the level is determined by where it appears in the block data section, here is what the 2 bytes actually represent:
 
--   `FF FF` indicates an air block, or nothing. Nothing at all is placed there, and is completely ignored.
--   `00 00` indicates a block with no special properties at all; i.e. a block that doesn't contain any objects or is of a specific type.
--   `01 00` indicates a fire block, which is just a regular block but with fire patches on all sides with no objects or any other properties.
--   `02 00` indicates the same as above, but as an ice block.
--   `03 00` indicates the same as above, but as an invisible block.
--   `04 00` indicates the same as above, but as an acid block.
--   `05 00` or above (ex. `06 00`, `07 00`, etc.) indicates a block with special properties, such as a crumbling or laser block, or a block that contains items and/or objects. The first block of this type must start at **5**, and is incremented for every next special block. A block of this type has coresponding [property data](#property-list). This number can be incremented until the near 2 byte integer limit of `FD FF`, as `FE FF` is **reserved** and is automatically placed in the game's memory for representing laser block segments, which is unimportant for understanding the format.
+| ID           | Type                                                                                                               |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ |
+| -1           | An air block, or nothing. Nothing at all is placed here, and is completely ignored.                                |
+| 0            | A block with no special properties at all; i.e. a block that doesn't contain any objects or is of a specific type. |
+| 1            | A fire block, which is just a normal block but with fire patches on all sides with no objects or properties.       |
+| 2            | Same as above, but as an ice block.                                                                                |
+| 3            | Same as above, but as an invisible block.                                                                          |
+| 4            | Same as above, but as an acid block.                                                                               |
+| 5 or greater | A block that contains special properties. See below.                                                               |
+
+Any value that is **5** or greater indicates a block with special properties, such as a crumbling or laser block, or a block that contains items and/or objects. The first block of this type must start at **5**, and is incremented for every next special block. A block of this type has coresponding [property data](#property-list). This number can be incremented until the near 2 byte integer limit of `FD FF`, as `FE FF` is **reserved** and is automatically placed in the game's memory for representing laser block segments, which is unimportant for understanding the format.
 
 ## Position Types
 
@@ -99,13 +117,7 @@ As stated above, there are a lot of different types of special blocks used in th
 
 ### Object Block <Badge type="info" text="0-4" />
 
-<div class="tip custom-block" style="padding-top: 8px">
-
-A table documenting every single object and their properties is available [here](/formats/objects).
-
-</div>
-
-The following structure below applies to blocks that contain **objects** (items / gizmos). **Moving, crumbling, flashing, and laser blocks** follow a different structure, and have dedicated sections respectively below.
+The following structure below applies to blocks that contain **objects**, i.e. anything that is assigned to a specific side of a block like items and traps. [Moving](#moving-block), [crumbling](#crumbling-block), [flashing](#flashing-block), and [laser](#laser-block) blocks follow a different structure, and have dedicated sections respectively below.
 
 ```c
 struct BlockProperty_Object_t {
@@ -126,7 +138,7 @@ Each object contains **32 bytes** of data:
 ```c
 struct BlockObject_t {
     short id;
-    short orientation;
+    short direction;
     short variant;
     short state;
     short objectIndex;
@@ -144,9 +156,15 @@ struct BlockObject_t {
 };
 ```
 
+<div class="tip custom-block" style="padding-top: 8px">
+
+A table documenting every single object and their properties is available [here](/formats/objects).
+
+</div>
+
 Every object in game has a completely unique **ID** that indicates what item to put there. In combination, some items can have different **variants** as well. For example, a coin has the ID `0x25` and the following variants: **Bronze, Gold, and Blue**. Some objects have different **states** as well, such as a transporter being powered on or off, or an item being uncollected or collected.
 
-Only some objects however have different **orientations**, which is used to specify the direction for the object. For example, arrows use the orientation value to determine which direction to face in, and the player spawn uses this value to determine which way to face when spawned into the level.
+Only some objects however have different **directions**, which is used to specify the direction for the object. For example, arrows use the direction value to determine where they face, and the player spawn uses this value to determine which way to face when spawned into the level.
 
 Some objects have an **object index**, which is incremented starting from 0 for every object. This value is not required to be set in file as it's automatically set in memory. In the first two demos, the **y position**, **rotationType**, and **rotationSpeed** fields are required to be set correctly, as they determine how far above an object is above its block, and how it is spun / animated. In the main games, these fields are **ignored** and hardcoded in the game's code, therefore not required and modifiable.
 
@@ -172,10 +190,10 @@ It's worth noting that in the first demo, buttons power themselves when pressed 
 struct BlockProperty_Moving_t {
     short blockType = 5;
     short direction;
-    short orientation;
+    short axis;
     short unknown;
-    Position_Block_t positionFrom;
-    Position_Block_t positionTo;
+    Position_Block_t position1;
+    Position_Block_t position2;
     short padding[6];
     short unknown;
     short length;
@@ -188,32 +206,40 @@ struct BlockProperty_Moving_t {
 };
 ```
 
-A single block is placed in the starting position, which is known as the **origin**. Based on the length, that many blocks including the origin will be placed in the direction depending on the direction type:
+The moving block contains 3 position values:
 
--   `00`, `05` - Positive Y
--   `01`, `04` - Positive X
--   `02`, `03` - Positive Z
+-   **Position 1** - Specifies one of two points that the block will move between during the level. This position must be **before** position 2 along an axis.
+-   **Position 2** - Specifies the other one of two points that the block will move between, and must be positioned **after** position 1.
+-   **Starting Position / Current Position** - Specifies what position the moving block will start at when the level is started. This means that the moving block can actually start at a different point along the axis than the two positions specified, though in most cases (and in all cases from the game) this position is usually the same as one of the two points above.
 
-The direction specifies what direction the moving block needs to travel in order to reach its **to position**:
+<img src="/moving_axis.png" alt="moving block axis." />
 
--   `00 00` indicates up.
--   `01 00` indicates right.
--   `02 00` indicates forward.
--   `03 00` indicates back.
--   `04 00` indicates left.
--   `05 00` indicates down.
+Based on the example level seen above, position 1 (green) is always first along the axis than position 2 (blue), regardless of what direction the block is set to.
+
+The direction specifies what direction the block will initially move towards on the axis:
+
+-   `00 00` indicates Negative Y.
+-   `01 00` indicates Positive X.
+-   `02 00` indicates Positive Z.
+-   `03 00` indicates Negative Z.
+-   `04 00` indicates Negative X.
+-   `05 00` indicates Positive Y.
 -   Any other value causes the moving block to not move at all.
 
-For example, if the block length is **1**, no other blocks will be placed as the origin block is apart of the length. If the length is **3** and the direction is set to **1**, **2 blocks** will be placed in the **positive X** direction. The moving block starts at the starting position (which is the **current position**), moves to the **to position**, and then moves between **from** and **to** position. The maximum length a moving block can be is **4**, as the texture data the block stores in memory inside its property overwrites other information about the moving block, as well as the next property.
+The **axis** of the moving block indicates what axis it is on, and how the texture is wrapped onto the block. If this value is not set correctly, the block's collision will not work properly and will often crash the game.
 
-The **orientation** of the moving block indicates how the texture is wrapped onto the block. If this value is not set correctly, the block's collision will not work properly and will often crash the game.
+-   `00 00` indicates Y axis.
+-   `01 00` indicates X axis.
+-   `02 00` indicates Z axis.
+-   Any other value defaults to Y axis.
 
--   `00 00` indicates up and down.
--   `01 00` indicates left and right.
--   `02 00` indicates forward and backward.
--   Any other value defaults to up and down.
+The **speed** indicates how many times the current position is incremented or decremented per frame depending on if it's moving in a positive or negative direction, respectively. Lastly, the **block ID** is set to the block ID that represents this property in the block data section.
 
-The **speed** indicates how many times the current position is incremented / decremented per frame and the **block ID** is set to the block ID that represents this property in the block data section.
+---
+
+A single block is placed at the starting position, which is known as the **origin**. Based on the length, that many blocks including the origin will be placed on the **positive** axis, e.g. if the direction is set to Negative X, the additional blocks will still be placed in the Positive X direction.
+
+For example, if the block length is **1**, no other blocks will be placed as the origin block is apart of the length. If the length is **3** and the direction is set to **1**, **2 blocks** will be placed in the **Positive X** direction. The maximum length a moving block can be is **4**, as the texture data the block stores in memory inside its property overwrites other information about the moving block, as well as the next property.
 
 ### Crumbling Block <Badge type="info" text="6" />
 
@@ -260,8 +286,8 @@ struct BlockProperty_Laser_t {
     short unknown;
     short direction;
     short enabled;
-    Position_Block_t positionFrom;
-    Position_Block_t positionTo;
+    Position_Block_t position1;
+    Position_Block_t position2;
     short padding[7];
     short unknown = 1;
     short padding[2];
@@ -272,16 +298,20 @@ struct BlockProperty_Laser_t {
 };
 ```
 
-The direction specifies what direction the laser block needs to look in to reach its **to position**:
+Position 1 and 2 specify the two points of the laser. Similar to the [moving block](#moving-block), position 1 must always come before on the axis than position 2. If one of the positions are set to a block that isn't actually present in the level, the game will automatically create a normal block in its place.
 
--   0 indicates up.
--   1 indicates right.
--   2 indicates forward.
--   3 indicates back.
--   4 indicates left.
--   5 indicates down.
+The direction specifies the direction of the laser:
 
-Changing the **color** property to values other than the 4 color values start to change the laser texture itself, however the game will crash upon turning it on. **Enabled** specifies whether the laser block is enabled by default when the level is started. Same as moving blocks, laser's also contain a **block ID** field that should be set to the block ID that represents this property in the block data section.
+-   `00 00` indicates Negative Y.
+-   `01 00` indicates Positive X.
+-   `02 00` indicates Positive Z.
+-   `03 00` indicates Negative Z.
+-   `04 00` indicates Negative X.
+-   `05 00` indicates Positive Y.
+
+The **color** property follows the same structure that transporters and buttons do, and can be viewed [here](/formats/objects#color). Changing the color actually indexes into the laser's different textures, as each color is its own texture, so setting the value other than 4 changes to textures beyond the boundary, and the game will crash upon turning it on.
+
+**Enabled** specifies whether the laser block is enabled by default when the level is started. Same as moving blocks, laser's also contain a **block ID** field that should be set to the block ID that represents this property in the block data section.
 
 Lastly, laser blocks contain a **target property** field for specifying which block and face to toggle when the laser's power is toggled, similar to transporters and buttons.
 

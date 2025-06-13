@@ -2,51 +2,51 @@
 
 There are many different types of objects in Kula Quest, each with their own set of properties.
 
-| ID (h) | Name                  | Orientation                             | Variant             | State               |
-| ------ | --------------------- | --------------------------------------- | ------------------- | ------------------- |
-| 01     | Fire Patch            | 0                                       | 0                   | 0                   |
-| 02     | Ice Patch             | 0                                       | 0                   | 0                   |
-| 03     | Invisible Patch       | 0                                       | 0                   | 0                   |
-| 04     | Acid Patch            | 0                                       | 0                   | 0                   |
-| 05     | Transporter           | [Orientation](#orientation)             | [Color](#color)     | [Enabled](#enabled) |
-| 06     | Unknown               | 0                                       | 0                   | 0                   |
-| 07     | Exit                  | 0                                       | [Exit](#exit)       | [Locked](#enabled)  |
-| 08     | Timer Pause           | 0                                       | 0                   | 0                   |
-| 09     | Button                | 0                                       | [Color](#color)     | [Enabled](#enabled) |
-| 0A     | Bouncepad             | 0                                       | 0                   | 0                   |
-| 0B     | Moving Spike          | 0                                       | [Sync](#sync)       | 0                   |
-| 0C     | Spike                 | 0                                       | 0                   | 0                   |
-| 0D-19  | Unknown               | 0                                       | 0                   | 0                   |
-| 1A     | Hidden Exit           | 0                                       | 0                   | [Locked](#enabled)  |
-| 1B     | Fruit Bowl            | 0                                       | 0                   | 0                   |
-| 1C     | Arrow                 | [Orientation](#orientation)             | 0                   | 0                   |
-| 1D     | Player Spawn (Paused) | [Orientation](#orientation)             | 0                   | 0                   |
-| 1E     | Player Spawn          | [Orientation](#orientation)             | 0                   | 0                   |
-| 1F     | Key                   | 0                                       | 0                   | 0                   |
-| 20     | Lethargy Pill         | 0                                       | 0                   | 0                   |
-| 21     | Bouncy Pill           | 0                                       | 0                   | 0                   |
-| 22     | Invincibility Pill    | 0                                       | 0                   | 0                   |
-| 23     | Timer Flip            | 0                                       | 0                   | 0                   |
-| 24     | Gem                   | 0                                       | [Variant](#variant) | 0                   |
-| 25     | Coin                  | 0                                       | [Variant](#variant) | 0                   |
-| 26     | Sunglasses            | 0                                       | 0                   | 0                   |
-| 27     | Purple Present        | 0                                       | 0                   | 0                   |
-| 28     | Red Present           | 0                                       | 0                   | 0                   |
-| 29     | Yellow Present        | 0                                       | 0                   | 0                   |
-| 2A     | Unused Enemy          | 0                                       | 0                   | 0                   |
-| 2B     | Apple                 | 0                                       | 0                   | 0                   |
-| 2C     | Watermelon            | 0                                       | 0                   | 0                   |
-| 2D     | Pumpkin               | 0                                       | 0                   | 0                   |
-| 2E     | Banana                | 0                                       | 0                   | 0                   |
-| 2F     | Strawberry            | 0                                       | 0                   | 0                   |
-| 30     | Blue Present          | 0                                       | 0                   | 0                   |
-| 31     | Green Present         | 0                                       | 0                   | 0                   |
-| 32     | Slow Star             | [Orientation](#orientation)             | 0                   | 0                   |
-| 33     | Tire                  | [Orientation](#orientation)             | 0                   | 0                   |
-| 34     | Fast Star             | [Orientation](#orientation)             | 0                   | 0                   |
-| 35     | Capture Pod           | [Orientation](#capture-pod-orientation) | 0                   | 0                   |
-| 36-37  | Unknown               | 0                                       | 0                   | 0                   |
-| 38     | Captivator            | 0                                       | [Sync](#sync)       | 0                   |
+| ID (h) | Name                  | Direction                           | Variant             | State               |
+| ------ | --------------------- | ----------------------------------- | ------------------- | ------------------- |
+| 01     | Fire Patch            | 0                                   | 0                   | 0                   |
+| 02     | Ice Patch             | 0                                   | 0                   | 0                   |
+| 03     | Invisible Patch       | 0                                   | 0                   | 0                   |
+| 04     | Acid Patch            | 0                                   | 0                   | 0                   |
+| 05     | Transporter           | [Direction](#direction)             | [Color](#color)     | [Enabled](#enabled) |
+| 06     | Unknown               | 0                                   | 0                   | 0                   |
+| 07     | Exit                  | 0                                   | [Exit](#exit)       | [Locked](#enabled)  |
+| 08     | Timer Pause           | 0                                   | 0                   | 0                   |
+| 09     | Button                | 0                                   | [Color](#color)     | [Enabled](#enabled) |
+| 0A     | Bouncepad             | 0                                   | 0                   | 0                   |
+| 0B     | Moving Spike          | 0                                   | [Sync](#sync)       | 0                   |
+| 0C     | Spike                 | 0                                   | 0                   | 0                   |
+| 0D-19  | Unknown               | 0                                   | 0                   | 0                   |
+| 1A     | Hidden Exit           | 0                                   | 0                   | [Locked](#enabled)  |
+| 1B     | Fruit Bowl            | 0                                   | 0                   | 0                   |
+| 1C     | Arrow                 | [Direction](#direction)             | 0                   | 0                   |
+| 1D     | Player Spawn (Paused) | [Direction](#direction)             | 0                   | 0                   |
+| 1E     | Player Spawn          | [Direction](#direction)             | 0                   | 0                   |
+| 1F     | Key                   | 0                                   | 0                   | 0                   |
+| 20     | Lethargy Pill         | 0                                   | 0                   | 0                   |
+| 21     | Bouncy Pill           | 0                                   | 0                   | 0                   |
+| 22     | Invincibility Pill    | 0                                   | 0                   | 0                   |
+| 23     | Hourglass             | 0                                   | 0                   | 0                   |
+| 24     | Gem                   | 0                                   | [Variant](#variant) | 0                   |
+| 25     | Coin                  | 0                                   | [Variant](#variant) | 0                   |
+| 26     | Sunglasses            | 0                                   | 0                   | 0                   |
+| 27     | Purple Present        | 0                                   | 0                   | 0                   |
+| 28     | Red Present           | 0                                   | 0                   | 0                   |
+| 29     | Yellow Present        | 0                                   | 0                   | 0                   |
+| 2A     | Unused Enemy          | 0                                   | 0                   | 0                   |
+| 2B     | Apple                 | 0                                   | 0                   | 0                   |
+| 2C     | Watermelon            | 0                                   | 0                   | 0                   |
+| 2D     | Pumpkin               | 0                                   | 0                   | 0                   |
+| 2E     | Banana                | 0                                   | 0                   | 0                   |
+| 2F     | Strawberry            | 0                                   | 0                   | 0                   |
+| 30     | Blue Present          | 0                                   | 0                   | 0                   |
+| 31     | Green Present         | 0                                   | 0                   | 0                   |
+| 32     | Slow Star             | [Direction](#direction)             | 0                   | 0                   |
+| 33     | Tire                  | [Direction](#direction)             | 0                   | 0                   |
+| 34     | Fast Star             | [Direction](#direction)             | 0                   | 0                   |
+| 35     | Capture Pod           | [Direction](#capture-pod-direction) | 0                   | 0                   |
+| 36-37  | Unknown               | 0                                   | 0                   | 0                   |
+| 38     | Captivator            | 0                                   | [Sync](#sync)       | 0                   |
 
 ## Variant
 
@@ -112,14 +112,14 @@ Some objects have different **states**, mostly to show whether it's enabled or d
 -   `02 00` - Unlocked
 -   Any other value defaults to locked.
 
-## Orientation
+## Direction
 
-There are many objects that allow you to control how they're orientated. For example, enemies allow you to control what direction they start moving in when the level is played based on this value, and other objects as the player spawn allow you to specify what direction the player spawns in.
+There are many objects that allow you to control what direction they face. For example, enemies allow you to control what direction they start moving in when the level is played based on this value, and other objects as the player spawn allow you to specify what direction the player spawns in.
 
-Depending on the side of the block the object is placed on, you can specify what direction based on this table (**except** for [capture pods](#Capture-Pod-Orientation)):
+Depending on the side of the block the object is placed on, you can specify what direction based on this table (**except** for [capture pods](#capture-pod-direction)):
 
 **Note:** Any other value defaults to `1`.
-**Note:** The orientation for transporters specify what direction the player will face when exited out of that transporter.
+**Note:** The direction for transporters specify what direction the player will face when exited out of that transporter.
 
 **Positive X:**
 
@@ -163,9 +163,9 @@ Depending on the side of the block the object is placed on, you can specify what
 -   `3`: Faces Positive Y
 -   `4`: Faces Negative X
 
-### Capture Pod Orientation
+### Capture Pod Direction
 
-For an unknown reason, **capture pods** uses slightly different orientation values, but the structure is generally the same:
+For an unknown reason, **capture pods** use slightly different direction values, and still move in a _random_ direction if multiple in a level are set to the same direction. For this very reason, it is not recommended to set its direction, and in most levels in the game they are actually set to **0**. Below is a deprecated chart I initially created for the capture pod direction values:
 
 **Positive X:**
 

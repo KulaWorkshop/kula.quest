@@ -9,6 +9,11 @@ export default defineConfig({
     cleanUrls: true,
     themeConfig: {
         outline: 'deep',
+        externalLinkIcon: true,
+        editLink: {
+            pattern:
+                'https://github.com/kulaworkshop/kula.quest/edit/main/docs/:path',
+        },
         search: {
             provider: 'local',
         },
@@ -25,15 +30,40 @@ export default defineConfig({
             {
                 text: 'Formats',
                 items: [
-                    { text: 'Pak Format', link: '/formats/pak' },
-                    { text: 'Kub Format', link: '/formats/kub' },
-                    { text: 'TGI Format', link: '/formats/tgi' },
-                    { text: 'GGI Format', link: '/formats/ggi' },
-                    { text: 'SFX Format', link: '/formats/sfx' },
-                    { text: 'Level Format', link: '/formats/level' },
                     {
-                        text: 'Object Database',
-                        link: '/formats/objects',
+                        text: 'Archives',
+                        collapsed: true,
+                        items: [
+                            { text: 'Pak Format', link: '/formats/pak' },
+                            { text: 'Kub Format', link: '/formats/kub' },
+                        ],
+                    },
+                    {
+                        text: 'Graphics',
+                        collapsed: true,
+                        items: [
+                            { text: 'TGI Format', link: '/formats/tgi' },
+                            { text: 'GGI Format', link: '/formats/ggi' },
+                        ],
+                    },
+                    {
+                        text: 'Levels',
+                        collapsed: true,
+                        items: [
+                            { text: 'Level Format', link: '/formats/level' },
+                            {
+                                text: 'Object Database',
+                                link: '/formats/objects',
+                            },
+                        ],
+                    },
+                    {
+                        text: 'Sounds',
+                        collapsed: true,
+                        items: [
+                            { text: 'SFX Format', link: '/formats/sfx' },
+                            { text: 'Sound Table', link: '/formats/sounds' },
+                        ],
                     },
                 ],
             },

@@ -7,7 +7,7 @@ A custom archive format for storing multiple files with compression in the oldes
 The first demo of the game (Kula Quest), uses a custom archive format for storing multiple compressed files into one file, almost exactly like the [**.PAK**](./pak) format used in later versions of the game. The only differences between the kub and the pak format is kub **doesn't store filenames** and uses a different compression method.
 
 -   The kub format uses [**little endian**](https://en.wikipedia.org/wiki/Endianness).
--   Each 4 byte value is read as unsigned integer. `(uint32_t)`
+-   Each 4 byte value is read as an unsigned integer. `(uint32_t)`
 
 ### Structure
 

@@ -14,7 +14,7 @@ If you are interested in using tools to create your own, please visit [here](htt
 Kula Quest uses a custom archive format for storing multiple compressed files into one file, similar to [**.ZIP**](<https://en.wikipedia.org/wiki/ZIP_(file_format)>) files. This file format is known as **.PAK**, and is primarily used for storing levels in a world. The pak format is also used for storing HUD textures embedded inside the game's executable, and is used to store screenshots seen upon the completion of demos.
 
 -   The pak format uses [**little endian**](https://en.wikipedia.org/wiki/Endianness).
--   Each 4 byte value is read as unsigned integer. `(uint32_t)`
+-   Each 4 byte value is read as an unsigned integer. `(uint32_t)`
 
 ### Structure
 

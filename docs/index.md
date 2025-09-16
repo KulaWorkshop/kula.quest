@@ -15,7 +15,7 @@ const members = [
   {
     avatar: 'https://avatars.githubusercontent.com/u/32149826?v=4',
     name: 'Murphy',
-    title: 'Creator',
+    title: 'Contributor',
     links: [
       { icon: 'github', link: 'https://github.com/murphy28/' },
       { icon: 'youtube', link: 'https://www.youtube.com/channel/UCXcBRZT1GL92RR9oQGBJgNA' }
@@ -36,9 +36,17 @@ Welcome! This website contains documentation derived from countless hours of rev
 
 Throughout this documentation, the game will be referred to as **Kula Quest** as it was the original name and was [intended](https://kulaquest.pinkgothic.com/storybehind.html) to be known as such all over the world, despite most people knowing it as Kula World. The other titles will be used in cases of version differences as needed.
 
+## Tools
+
+Documentation relating to tools that have been developed to create or modify formats are available here.
+
+<div class="grid">
+    <CardLink title="Quilt" description="A command-line utility for modifying archive files and compression used in Kula Quest." link="/tools/quilt" />
+</div>
+
 ## Formats
 
-Technical documentation is available for most of Kula Quest's custom binary formats. Tools that have been developed to create or modify said formats are separate from this website and are available [here](https://example.com).
+Technical documentation is available for most of Kula Quest's custom binary formats.
 
 <div class="grid">
     <CardLink title="Pak Format" description="An archive format for storing multiple files." link="/formats/pak" />

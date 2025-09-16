@@ -17,80 +17,101 @@ If you are interested in using tools to create your own, please visit [here](htt
 
 ## Overview
 
-Kula Quest uses a custom binary format for storing level data. This format does not have its own extension, and is mostly the same across all versions of the games with slight differences.
+Kula Quest uses a custom binary format for storing level data.
+This format does not have its own file extension, and is mostly the same across all versions of the games with slight differences.
 
--   This format uses [**little endian**](https://en.wikipedia.org/wiki/Endianness).
--   Every value in this format is read as a 2 byte signed integer. `(int16_t)`
+All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness), and the following data types will be used:
 
-### Structure
+| Encoding | Description           |
+| -------- | --------------------- |
+| i16      | Signed 16-bit integer |
+
+## Structure
 
 The format is comprised of the following structure:
 
--   Block types
--   The amount of blocks and property count
--   Block properties
--   Optional level metadata
+- Block identifiers
+- The amount of blocks and property count
+- Block properties
+- Optional level properties
 
-```c
-struct LevelFile_t {
-    short blocks[39304];  // (34 * 34 * 34 blocks)
-    short blockCount;
-    short padding;
-    short propertyCount;
-    char properties[];
-};
-```
+| Offset(h) | Size  | Type             | Field            | Description                              |
+| --------- | ----- | ---------------- | ---------------- | ---------------------------------------- |
+| 0x00      | 78608 | i16[34^3]        | block_ids        | Identifiers for every block in the level |
+| 0x13310   | 2     | i16              | block_count      | Amount of blocks in the level            |
+| 0x13312   | 2     | i16              | unused           | Unused                                   |
+| 0x13314   | 2     | i16              | property_count   | Amount of properties in the level        |
+| 0x13316   | -     | property[]       | properties       | Block properties                         |
+| -         | 256   | level_properties | level_properties | Level properties (Optional)              |
 
-## Block Data
+## Block Identifiers
 
-Every level in the game is essentially a 34x34x34 grid of blocks, with some blocks containing custom properties. The first block is defined at the top, left, back corner of the level, which is at coordinate **0, 0, 0**. The last block ends at the bottom, right, front corner of the level, which is at coordinate **33, 33, 33**.
+Every level in the game is essentially a 34x34x34 grid of blocks, with some blocks containing extra properties.
+The first block is defined at the top, left, back corner of the level, which is at coordinate **0, 0, 0**.
+The last block ends at the bottom, right, front corner of the level, which is at coordinate **33, 33, 33**.
 
--   X indicates left and right.
--   Y indicates up and down.
--   Z indicates forward and backward (depth).
+- X indicates left and right.
+- Y indicates up and down.
+- Z indicates forward and backward (depth).
 
-The first **0x13310** bytes of the file represent the block data and indicate which block in the grid is of what type. Every 2 bytes indicate a single block, each time incrementing the Y position. This continues until the Y position exceeds 33, which is when the Z position is incremented, and Y is reset back to 0. Once the Z position exceeds 33, the X position is incremented and Y and Z are reset back to 0. These blocks are read until the position of the file reaches the end of the **block data section**, which is at offset **0x13310** (which as stated previously is the size of this section).
+The first **78608** bytes of the file indicate which block in the grid is of what type.
+Every 2 bytes indicate a single block, each time incrementing the Y position.
+This continues until the Y position exceeds 33, where it's reset back to 0 and the Z position is incremented.
+Once the Z position exceeds 33, the X position is incremented and Y and Z are reset back to 0.
+These blocks are read until the position of the file reaches the end of the **block identifier section**, which is at offset **0x13310** (which as stated previously is the size of this section).
 
-Knowing that every block is represented as a signed 2 byte short, and it's position in the level is determined by where it appears in the block data section, here is what the 2 bytes actually represent:
+Here is a table defining what the 2 byte identifier represents:
 
-| ID           | Type                                                                                                               |
-| ------------ | ------------------------------------------------------------------------------------------------------------------ |
-| -1           | An air block, or nothing. Nothing at all is placed here, and is completely ignored.                                |
-| 0            | A block with no special properties at all; i.e. a block that doesn't contain any objects or is of a specific type. |
-| 1            | A fire block, which is just a normal block but with fire patches on all sides with no objects or properties.       |
-| 2            | Same as above, but as an ice block.                                                                                |
-| 3            | Same as above, but as an invisible block.                                                                          |
-| 4            | Same as above, but as an acid block.                                                                               |
-| 5 or greater | A block that contains special properties. See below.                                                               |
+| ID         | Type                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| -1         | An air block, or nothing. Nothing at all is placed here, and is completely ignored.                                |
+| 0          | A block with no special properties at all; i.e. a block that doesn't contain any objects or is of a specific type. |
+| 1          | A fire block, which is just a normal block but with fire patches on all sides with no objects or properties.       |
+| 2          | Same as above, but as an ice block.                                                                                |
+| 3          | Same as above, but as an invisible block.                                                                          |
+| 4          | Same as above, but as an acid block.                                                                               |
+| 5 or above | A block that contains special properties. See below.                                                               |
+| -2         | Reserved for laser segments, in memory usage only.                                                                 |
 
-Any value that is **5** or greater indicates a block with special properties, such as a crumbling or laser block, or a block that contains items and/or objects. The first block of this type must start at **5**, and is incremented for every next special block. A block of this type has coresponding [property data](#property-list). This number can be incremented until the near 2 byte integer limit of `FD FF`, as `FE FF` is **reserved** and is automatically placed in the game's memory for representing laser block segments, which is unimportant for understanding the format.
+Any value that is **5** or greater indicates a block with special properties and has corresponding [property data](#property-list), such as a crumbling or laser block, or a block that contains items and/or objects.
+The first block of this type must start at **5**, and is incremented for every next special block.
 
 ## Position Types
 
-There are 2 main types of positioning used in this format: **block coordinates** and **entity coordinates**. Here's an example of the different coordinates:
+There are 2 types of positioning used in this format — **block coordinates** and **entity coordinates**.
+Here's an example of the different coordinates:
 
--   `11 00 10 00 11 00` - Block Coordinate
--   `00 22 00 20 9C 20` - Entity Coordinate
+- `11 00 10 00 11 00` - Block Coordinate
+- `00 22 00 20 9C 20` - Entity Coordinate
 
-The block coordinate system is mainly used for positioning block properties and block positioning in general. Objects and entities in game that need to use finer position values use the entity coordinate system, such as the ball and the current moving block position.
+The block coordinate system is mainly used for positioning block properties and block positioning in general.
+Objects and entities in game that need to use finer position values use the entity coordinate system, such as the ball and the current moving block position.
 
-An entity coordinate value is **double** the amount of a block coordinate value, and the bytes are swapped, with the first byte as fine tune. In the example above, we have a block with an item using the block coordinate and a ball on top of the same block using the entity coordinate. The X and Z values are the same, while the Y coordinate is slightly above the block.
+An entity coordinate value is **double** the amount of a block coordinate value, and the bytes are swapped, with the first byte as fine tune.
+In the example above, we have a block with an item using the block coordinate and a ball on top of the same block using the entity coordinate.
+The X and Z values are the same, while the Y coordinate is slightly above the block.
 
 Here are the two different structures used throughout this document to define the type of positioning used:
 
-```c
-struct Position_Block_t {
-    short x;
-    short z;
-    short y;
-};
+### Block Position
 
-struct Position_Entity_t {
-    short x;
-    short z;
-    short y;
-};
-```
+| Offset(h) | Size | Type | Field | Description |
+| --------- | ---- | ---- | ----- | ----------- |
+| +0x00     | 2    | i16  | x     | X position  |
+| +0x02     | 2    | i16  | z     | Z position  |
+| +0x04     | 2    | i16  | y     | Y position  |
+
+> Also referenced as **Position_block_t** in structures.
+
+### Entity Position
+
+| Offset(h) | Size | Type | Field | Description                 |
+| --------- | ---- | ---- | ----- | --------------------------- |
+| +0x00     | 2    | i16  | x     | X position (more precision) |
+| +0x02     | 2    | i16  | z     | Z position (more precision) |
+| +0x04     | 2    | i16  | y     | Y position (more precision) |
+
+> Also referenced as **Position_entity_t** in structures.
 
 ## Property List
 
@@ -119,40 +140,47 @@ As stated above, there are a lot of different types of special blocks used in th
 
 The following structure below applies to blocks that contain **objects**, i.e. anything that is assigned to a specific side of a block like items and traps. [Moving](#moving-block), [crumbling](#crumbling-block), [flashing](#flashing-block), and [laser](#laser-block) blocks follow a different structure, and have dedicated sections respectively below.
 
-```c
-struct BlockProperty_Object_t {
-    short blockType;  // 0 - 4 (Regular, Fire, ...)
-    BlockObject_t top;
-    BlockObject_t right;
-    BlockObject_t front;
-    BlockObject_t back;
-    BlockObject_t left;
-    BlockObject_t bottom;
-    short padding[28];
-    Position_Block_t position;
-};
-```
+| Offset(h) | Size | Type                                  | Field         | Description                       |
+| --------- | ---- | ------------------------------------- | ------------- | --------------------------------- |
+| +0x00     | 2    | i16                                   | block_type    | Type of block                     |
+| +0x02     | 32   | <a href="#object-property">object</a> | object_top    | Object on the top of the block    |
+| +0x22     | 32   | <a href="#object-property">object</a> | object_right  | Object on the right of the block  |
+| +0x42     | 32   | <a href="#object-property">object</a> | object_front  | Object on the front of the block  |
+| +0x62     | 32   | <a href="#object-property">object</a> | object_back   | Object on the back of the block   |
+| +0x82     | 32   | <a href="#object-property">object</a> | object_left   | Object on the left of the block   |
+| +0xA2     | 32   | <a href="#object-property">object</a> | object_bottom | Object on the bottom of the block |
+| +0x194    | 56   | -                                     | padding       | Padding (set to -1)               |
+| +0x250    | 6    | position_block                        | position      | The block's position              |
 
-Each object contains **32 bytes** of data:
+#### Object Property
+
+Each object contains **32 bytes** of information:
+
+| Offset(h) | Size | Type | Field     | Description                      |
+| --------- | ---- | ---- | --------- | -------------------------------- |
+| +0x00     | 2    | i16  | id        | Object identifier                |
+| +0x02     | 2    | i16  | direction | Object direction                 |
+| +0x04     | 2    | i16  | variant   | Object variant                   |
+| ...       |      |      |           | _See struct for complete layout_ |
 
 ```c
 struct BlockObject_t {
-    short id;
-    short direction;
-    short variant;
-    short state;
-    short objectIndex;
-    short targetProp1;  // buttons and transporters only
-    short targetProp2;  // buttons and transporters only
-    short animationModelIndex;  // memory only (related to vertex buffer index)
-    short y;
-    short rotationType;
-    short animationValue1;   // memory only
-    short animationValue2;   // memory only
-    short animationValue3;   // memory only
-    short rotationSpeed;
-    short animationCounter;  // memory only
-    short animationState;    // memory only
+    i16_t id;
+    i16_t direction;
+    i16_t variant;
+    i16_t state;
+    i16_t objectIndex;
+    i16_t targetProp1;          // buttons and transporters only
+    i16_t targetProp2;          // buttons and transporters only
+    i16_t animationModelIndex;  // memory only (related to vertex buffer index)
+    i16_t y;                    // only required in demos
+    i16_t rotationType;         // only required in demos
+    i16_t animationValue1;      // memory only
+    i16_t animationValue2;      // memory only
+    i16_t animationValue3;      // memory only
+    i16_t rotationSpeed;        // only required in demos
+    i16_t animationCounter;     // memory only
+    i16_t animationState;       // memory only
 };
 ```
 
@@ -162,15 +190,19 @@ A table documenting every single object and their properties is available [here]
 
 </div>
 
-Every object in game has a completely unique **ID** that indicates what item to put there. In combination, some items can have different **variants** as well. For example, a coin has the ID `0x25` and the following variants: **Bronze, Gold, and Blue**. Some objects have different **states** as well, such as a transporter being powered on or off, or an item being uncollected or collected.
+Every object has a completely unique **ID** that indicates what item to put there, with some having different **variants** as well.
+For example, a coin has the ID of `0x25` with the following variants: **Bronze, Gold, and Blue**.
+An object can have several states as well, such as a transporter being turned on or off.
 
-Only some objects however have different **directions**, which is used to specify the direction for the object. For example, arrows use the direction value to determine where they face, and the player spawn uses this value to determine which way to face when spawned into the level.
+Some objects use the **direction** field, such as arrows that utilize this value for the direction they face.
 
-Some objects have an **object index**, which is incremented starting from 0 for every object. This value is not required to be set in file as it's automatically set in memory. In the first two demos, the **y position**, **rotationType**, and **rotationSpeed** fields are required to be set correctly, as they determine how far above an object is above its block, and how it is spun / animated. In the main games, these fields are **ignored** and hardcoded in the game's code, therefore not required and modifiable.
+Although not required as it's automatically set in memory, the **object index** is incremented from 0 after every object.
+The first two demos require the **y position**, **rotationType**, and **rotationSpeed** fields to be set correctly, as they determine how far an object is above the block and how it's animated.
+The fields are ignored in later versions of the game as they're hardcoded in the game's programming.
 
 The **animation values**, **counter**, and **state** fields are not set in file, and are automatically populated and used in memory.
 
-Lastly are the two **target property** fields, which are only used by transporters and buttons. These two fields specify what object(s) to toggle when the transporter / button is powered or unpowered (toggled), and where the transporter will send the player to, respectively. They both act as positions, and follow this principle:
+Lastly are the two **target property** fields, which are only used by transporters and buttons. These two fields specify what object(s) to toggle when the transporter or button is powered or unpowered (toggled), and where the transporter will send the player to, respectively. They both act as positions, and follow this principle:
 
 ```c
 short propertyIndex;
@@ -208,9 +240,9 @@ struct BlockProperty_Moving_t {
 
 The moving block contains 3 position values:
 
--   **Position 1** - Specifies one of two points that the block will move between during the level. This position must be **before** position 2 along an axis.
--   **Position 2** - Specifies the other one of two points that the block will move between, and must be positioned **after** position 1.
--   **Starting Position / Current Position** - Specifies what position the moving block will start at when the level is started. This means that the moving block can actually start at a different point along the axis than the two positions specified, though in most cases (and in all cases from the game) this position is usually the same as one of the two points above.
+- **Position 1** - Specifies one of two points that the block will move between during the level. This position must be **before** position 2 along an axis.
+- **Position 2** - Specifies the other one of two points that the block will move between, and must be positioned **after** position 1.
+- **Starting Position / Current Position** - Specifies what position the moving block will start at when the level is started. This means that the moving block can actually start at a different point along the axis than the two positions specified, though in most cases (and in all cases from the game) this position is usually the same as one of the two points above.
 
 <img src="/moving_axis.png" alt="moving block axis." />
 
@@ -218,20 +250,20 @@ Based on the example level seen above, position 1 (green) is always first along 
 
 The direction specifies what direction the block will initially move towards on the axis:
 
--   `00 00` indicates Negative Y.
--   `01 00` indicates Positive X.
--   `02 00` indicates Positive Z.
--   `03 00` indicates Negative Z.
--   `04 00` indicates Negative X.
--   `05 00` indicates Positive Y.
--   Any other value causes the moving block to not move at all.
+- `00 00` indicates Negative Y.
+- `01 00` indicates Positive X.
+- `02 00` indicates Positive Z.
+- `03 00` indicates Negative Z.
+- `04 00` indicates Negative X.
+- `05 00` indicates Positive Y.
+- Any other value causes the moving block to not move at all.
 
 The **axis** of the moving block indicates what axis it is on, and how the texture is wrapped onto the block. If this value is not set correctly, the block's collision will not work properly and will often crash the game.
 
--   `00 00` indicates Y axis.
--   `01 00` indicates X axis.
--   `02 00` indicates Z axis.
--   Any other value defaults to Y axis.
+- `00 00` indicates Y axis.
+- `01 00` indicates X axis.
+- `02 00` indicates Z axis.
+- Any other value defaults to Y axis.
 
 The **speed** indicates how many times the current position is incremented or decremented per frame depending on if it's moving in a positive or negative direction, respectively. Lastly, the **block ID** is set to the block ID that represents this property in the block data section.
 
@@ -242,6 +274,14 @@ A single block is placed at the starting position, which is known as the **origi
 For example, if the block length is **1**, no other blocks will be placed as the origin block is apart of the length. If the length is **3** and the direction is set to **1**, **2 blocks** will be placed in the **Positive X** direction. The maximum length a moving block can be is **4**, as the texture data the block stores in memory inside its property overwrites other information about the moving block, as well as the next property.
 
 ### Crumbling Block <Badge type="info" text="6" />
+
+| Offset(h) | Size | Type            | Field      | Description       |
+| --------- | ---- | --------------- | ---------- | ----------------- |
+| +0x00     | 2    | i16             | block_type | Block Type (6)    |
+| +0x00     | 2    | i16             | state      | State (6)         |
+| +0x02     | 6    | position_entity | position   | Position (entity) |
+| +0x04     | 240  | -               | padding    | Padding           |
+| +0x02     | 6    | position_block  | position   | Position (block)  |
 
 ```c
 struct BlockProperty_Crumbling_t {
@@ -255,11 +295,11 @@ struct BlockProperty_Crumbling_t {
 
 Crumbling blocks have the following state values, although they should be set to **1** in file:
 
--   **0** indicates the crumble block is gone.
--   **1** indicates the crumble block is active.
--   **2** indicates the crumble block is crumbling, but is not used.
--   **3** indicates the crumble block is crumbling.
--   Any other value causes the crumble block to still be active, but will not make a sound when touched.
+- **0** indicates the crumble block is gone.
+- **1** indicates the crumble block is active.
+- **2** indicates the crumble block is crumbling, but is not used.
+- **3** indicates the crumble block is crumbling.
+- Any other value causes the crumble block to still be active, but will not make a sound when touched.
 
 The crumble block contains entity positioning, and are set as the exact block coordinate of the crumble block, even though it seems to not have an effect in game when changed to a different value. The **240 bytes** of padding are usually set to **-1**, but strangely enough some crumble blocks have object block data and other weird structures. Although they have no effect, it's still interesting to see that maybe some crumble blocks were intended to contain objects as well.
 
@@ -302,12 +342,12 @@ Position 1 and 2 specify the two points of the laser. Similar to the [moving blo
 
 The direction specifies the direction of the laser:
 
--   `00 00` indicates Negative Y.
--   `01 00` indicates Positive X.
--   `02 00` indicates Positive Z.
--   `03 00` indicates Negative Z.
--   `04 00` indicates Negative X.
--   `05 00` indicates Positive Y.
+- `00 00` indicates Negative Y.
+- `01 00` indicates Positive X.
+- `02 00` indicates Positive Z.
+- `03 00` indicates Negative Z.
+- `04 00` indicates Negative X.
+- `05 00` indicates Positive Y.
 
 The **color** property follows the same structure that transporters and buttons do, and can be viewed [here](/formats/objects#color). Changing the color actually indexes into the laser's different textures, as each color is its own texture, so setting the value other than 4 changes to textures beyond the boundary, and the game will crash upon turning it on.
 

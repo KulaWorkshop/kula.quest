@@ -55,11 +55,11 @@ In **Kula Quest**, the unused **sound 29** was replaced with a level completion 
 In the **alpha** release of the game, only sounds up to the **sunglasses collection** were present.
 However, the bounce pill sound effect used to sound completely different:
 
-<audio src="./original-bounce-pill.wav" controls />
+<audio src="/original-bounce-pill.wav" controls />
 
 In the **beta** release of the game, only sounds up to the **hourglass tick** were present, and the capture pod used to also have a completely different sound effect:
 
-<audio src="./original-capture-pod.wav" controls />
+<audio src="/original-capture-pod.wav" controls />
 
 It's unknown if these original sound effects were intended to be used for the bounce pill and capture pod as they go unused, it's just an assumption as they're placed in the same slots as the final version.
 
@@ -72,4 +72,4 @@ In the following Japanese Kula Quest demos, the SFX file is sightly different. T
 - Hyper PlayStation Re-mix 1999 No. 6 <Badge type="tip" text="SLPM-80424" />
 - Dengeki PlayStation D19 <Badge type="tip" text="SLPM-80425" />
 
-<audio src="./new-level-completion.wav" controls />
+<audio src="/new-level-completion.wav" controls />

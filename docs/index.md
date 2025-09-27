@@ -43,7 +43,15 @@ Documentation relating to tools that have been developed to create or modify for
 <div class="grid">
     <CardLink title="Quilt" description="A command-line utility for modifying archive files and compression used in Kula Quest." link="/tools/quilt" />
     <CardLink title="MKSFX" description="A command-line utility for modifying SFX files from Kula Quest." link="/tools/mksfx" />
+</div>
 
+## Resources
+
+Several resources are available derived from research into releases of the game.
+
+<div class="grid">
+    <CardLink title="Releases" description="Every single known release of Kula Quest." link="/resources/releases" />
+    <CardLink title="Soundtracks" description="The soundtracks used in releases of Kula Quest." link="/resources/soundtracks" />
 </div>
 
 ## Formats

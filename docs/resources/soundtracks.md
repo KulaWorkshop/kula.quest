@@ -17,7 +17,7 @@ The most well known removed soundtrack is from the first demo version of the gam
 
 <br/>
 
-<audio src="./Twice A Man - Hidden Track.mp3" controls />
+<audio src="/Twice A Man - Hidden Track.mp3" controls />
 
 <br/>
 

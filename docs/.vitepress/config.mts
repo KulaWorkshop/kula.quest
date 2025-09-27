@@ -16,11 +16,7 @@ export default defineConfig({
 		search: {
 			provider: 'local'
 		},
-		nav: [
-			{ text: 'Documentation', link: '/' },
-			{ text: 'Blog', link: '/blog' },
-			{ text: 'Home', link: 'https://kula.quest' }
-		],
+		nav: [{ text: 'Home', link: 'https://kula.quest' }],
 		sidebar: [
 			{
 				text: 'About',
@@ -32,6 +28,23 @@ export default defineConfig({
 					{
 						text: 'Quilt',
 						link: '/tools/quilt'
+					},
+					{
+						text: 'MKSFX',
+						link: '/tools/mksfx'
+					}
+				]
+			},
+			{
+				text: 'Resources',
+				items: [
+					{
+						text: 'Releases',
+						link: '/resources/releases'
+					},
+					{
+						text: 'Soundtracks',
+						link: '/resources/soundtracks'
 					}
 				]
 			},
@@ -62,6 +75,16 @@ export default defineConfig({
 							{
 								text: 'Object Database',
 								link: '/formats/objects'
+							}
+						]
+					},
+					{
+						text: 'Music',
+						collapsed: true,
+						items: [
+							{
+								text: 'XA Format',
+								link: '/formats/xa'
 							}
 						]
 					},

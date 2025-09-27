@@ -28,7 +28,7 @@ const members = [
 
 Welcome! This website contains documentation derived from countless hours of reverse engineering and research into the PlayStation 1 game **Kula Quest**.
 
-![wallpaper](/wallpaper.png)
+![wallpaper](./wallpaper.png)
 
 > Source: https://kulaquest.pinkgothic.com/graphics.html
 
@@ -42,6 +42,8 @@ Documentation relating to tools that have been developed to create or modify for
 
 <div class="grid">
     <CardLink title="Quilt" description="A command-line utility for modifying archive files and compression used in Kula Quest." link="/tools/quilt" />
+    <CardLink title="MKSFX" description="A command-line utility for modifying SFX files from Kula Quest." link="/tools/mksfx" />
+
 </div>
 
 ## Formats
@@ -51,10 +53,10 @@ Technical documentation is available for most of Kula Quest's custom binary form
 <div class="grid">
     <CardLink title="Pak Format" description="An archive format for storing multiple files." link="/formats/pak" />
     <CardLink title="Kub Format" description="An archive format for storing multiple files in the oldest demo." link="/formats/kub" />
-    <CardLink title="TGI Format" category="In Progress" description="A custom binary format for storing theme information." link="/formats/tgi" />
-    <CardLink title="GGI Format" description="A custom binary format for storing model and sprite information." link="/formats/ggi" />
     <CardLink title="Level Format" description="A custom binary format for storing level data." link="/formats/level" />
-    <CardLink title="SFX Format" category="In Progress" description="A custom binary format for storing sound information." link="/formats/sfx" />
+    <CardLink title="SFX Format" description="A custom binary format for storing sound information." link="/formats/sfx" />
+    <CardLink title="TGI Format" category="In Progress" description="A custom binary format for storing theme information." link="/formats/tgi" />
+    <CardLink title="GGI Format" category="In Progress" description="A custom binary format for storing model and sprite information." link="/formats/ggi" />
 </div>
 
 <style scoped>

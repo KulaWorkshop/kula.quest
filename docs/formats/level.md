@@ -244,7 +244,7 @@ The moving block contains 3 position values:
 - **Position 2** - Specifies the other one of two points that the block will move between, and must be positioned **after** position 1.
 - **Starting Position / Current Position** - Specifies what position the moving block will start at when the level is started. This means that the moving block can actually start at a different point along the axis than the two positions specified, though in most cases (and in all cases from the game) this position is usually the same as one of the two points above.
 
-<img src="/moving_axis.png" alt="moving block axis." />
+<img src="./moving_axis.png" alt="moving block axis." />
 
 Based on the example level seen above, position 1 (green) is always first along the axis than position 2 (blue), regardless of what direction the block is set to.
 

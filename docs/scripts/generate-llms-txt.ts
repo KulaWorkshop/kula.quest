@@ -1,17 +1,17 @@
 import fs from 'node:fs';
-import { glob } from 'node:fs/promises';
 import path from 'node:path';
+import { glob } from 'glob';
 
 const docsDir = path.resolve('docs');
 
 async function generateLLMsTXT() {
 	// sort input files
-	let inputFiles = [];
-	for await (const file of glob('**/*.md', { cwd: docsDir, exclude: ['**/node_modules/**'] })) {
-		inputFiles.push(file);
-	}
+	const inputFiles = await glob('**/*.md', {
+		cwd: docsDir,
+		ignore: ['**/node_modules/**']
+	});
 
-	inputFiles = inputFiles.sort((a, b) => {
+	inputFiles.sort((a, b) => {
 		if (a === 'index.md') return -1;
 		if (b === 'index.md') return 1;
 		return a.localeCompare(b);

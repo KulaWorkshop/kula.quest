@@ -251,6 +251,8 @@ In earlier versions, buttons power themselves when pressed and only contain the 
 In all other versions of the games, buttons have two slots and **do not** power themselves when pressed.
 This means buttons themselves need power, so often times one of the slots are used to power itself, though only **toggle property 2** can be used to power itself.
 
+When targeting a laser block, ensure the side is set to **6**.
+
 ### Moving Block <Badge type="info" text="5" />
 
 ```c

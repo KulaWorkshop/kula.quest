@@ -2,6 +2,13 @@
 
 A custom binary format for storing sound information.
 
+<div class="tip custom-block" style="padding-top: 8px">
+
+This document contains information about the format structure of SFX files.
+If you are interested in using tools to create your own, please visit [here](../tools/mksfx.md).
+
+</div>
+
 ## Overview
 
 A custom binary format is used for storing every single sound effect used in the game.

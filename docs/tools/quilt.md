@@ -29,20 +29,20 @@ To extract an archive file, use the **unpack** command followed by the path to t
 The following example command will extract the files inside of `HIRO.PAK` into a folder called `levels`:
 
 ```bash
-$ quilt unpack HIRO.PAK levels
+$ quilt unpack "HIRO.PAK" "levels"
 ```
 
 To create an archive, use the **pack** command followed by the path to create it and a list of files to use:
 
 ```bash
-$ quilt pack LEVELS.PAK LEVEL_1 LEVEL_2 LEVEL_3
+$ quilt pack "LEVELS.PAK" "LEVEL_1" "LEVEL_2" "LEVEL_3"
 ```
 
 By default, Quilt will create a **.PAK** file.
 Use the `-k` flag to set the creation type to **.KUB**:
 
 ```bash
-$ quilt pack LEVELS.KUB -k LEVEL_1 LEVEL_2 LEVEL_3
+$ quilt pack -k "LEVELS.KUB" "LEVEL_1" "LEVEL_2" "LEVEL_3"
 ```
 
 ### Using Text Files
@@ -51,7 +51,7 @@ When dealing with archives that contain many files, or for quick rebuilding of a
 You can generate this text file automatically when unpacking an archive, using the `-s` flag:
 
 ```bash
-$ quilt unpack -s HIRO.PAK levels
+$ quilt unpack -s "HIRO.PAK" "levels"
 ```
 
 This example command will unpack the contents of `HIRO.PAK`, and will additionally save a text file inside of the `levels` folder named `HIRO.PAK.txt`:
@@ -87,12 +87,12 @@ The text file format is simple — one filename per line, in the order they shou
 Instead of having to specify all of these files to build an archive, you can use the **@** parameter following the path of the text file:
 
 ```bash
-$ quilt pack HIRO.PAK @levels/HIRO.PAK.txt
+$ quilt pack "HIRO.PAK" "@levels/HIRO.PAK.txt"
 ```
 
 ::: tip Important
 
-**Note**: Make sure that your files are inside the same folder as the text file.
+Make sure that your files are inside the same folder as the text file.
 
 :::
 
@@ -104,13 +104,13 @@ Quilt allows you to decompress and recompress these files using the following ex
 For decompression, the following commands can be used:
 
 ```bash
-$ quilt decompress KULA.TGI KULA.decompressed.TGI
-$ quilt decompress KULA.GGI KULA.decompressed.GGI
+$ quilt decompress "KULA.TGI" "KULA.decompressed.TGI"
+$ quilt decompress "KULA.GGI" "KULA.decompressed.GGI"
 ```
 
 If you would like to recompress the file to put it back into the game, the following commands can be used:
 
 ```bash
-$ quilt compress KULA.decompressed.TGI KULA.TGI
-$ quilt compress KULA.decompressed.GGI KULA.GGI
+$ quilt compress "KULA.decompressed.TGI" "KULA.TGI"
+$ quilt compress "KULA.decompressed.GGI" "KULA.GGI"
 ```

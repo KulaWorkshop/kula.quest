@@ -32,26 +32,26 @@ The format is comprised of the following structure:
 
 ### Header
 
-| Offset(h) | Size | Type | Field      | Description                    |
-| --------- | ---- | ---- | ---------- | ------------------------------ |
-| 0x00      | 4    | u32  | file_count | Number of files in the archive |
+| Offset(h) | Size | Type | Description                    |
+| --------- | ---- | ---- | ------------------------------ |
+| 0x00      | 4    | u32  | Number of files in the archive |
 
 ### File Table
 
 Starting at offset 0x04, each file entry is 8 bytes:
 
-| Offset(h) | Size | Type | Field  | Description                             |
-| --------- | ---- | ---- | ------ | --------------------------------------- |
-| +0x00     | 4    | u32  | offset | Absolute offset to compressed file data |
-| +0x04     | 4    | u32  | size   | Size of compressed file in bytes        |
+| Offset(h) | Size | Type | Description                             |
+| --------- | ---- | ---- | --------------------------------------- |
+| +0x00     | 4    | u32  | Absolute offset to compressed file data |
+| +0x04     | 4    | u32  | Size of compressed file in bytes        |
 
 ### File Names
 
 Offsets for each filename immediately follow after the file table:
 
-| Offset(h)               | Size           | Type  | Field            | Description                                   |
-| ----------------------- | -------------- | ----- | ---------------- | --------------------------------------------- |
-| 0x04 + (file_count x 8) | 4 x file_count | u32[] | filename_offsets | Array of absolute offsets to filename strings |
+| Offset(h)               | Size           | Type  | Description                                   |
+| ----------------------- | -------------- | ----- | --------------------------------------------- |
+| 0x04 + (file_count x 8) | 4 x file_count | u32[] | Array of absolute offsets to filename strings |
 
 Each filename is a null-terminated string with a newline character:
 

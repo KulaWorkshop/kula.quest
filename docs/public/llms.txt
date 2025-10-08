@@ -1,0 +1,12 @@
+# Kula Quest Docs
+
+> An archival project derived from countless hours of reverse engineering and research into the PlayStation 1 game Kula Quest.
+
+Important notes:
+
+- Throughout this documentation, the game will be referred to as Kula Quest as it was the original name and was intended to be known as such all over the world, despite most people knowing it as Kula World.
+The other titles will be used in cases of version differences as needed.
+
+## Documentation Sets
+
+- [Full Documentation](https://docs.kula.quest/llms-full.txt): The complete Kula Quest documentation.

@@ -29,3 +29,6 @@ docs/.vitepress/cache
 # Tools
 #/static/tools/*
 #!/static/tools/
+
+# LLM Files
+docs/public/llms-*.txt

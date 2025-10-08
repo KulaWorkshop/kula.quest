@@ -31,18 +31,18 @@ The format is comprised of the following structure:
 
 ### Header
 
-| Offset(h) | Size | Type | Field      | Description                    |
-| --------- | ---- | ---- | ---------- | ------------------------------ |
-| 0x00      | 4    | u32  | file_count | Number of files in the archive |
+| Offset(h) | Size | Type Description                   |
+| --------- | ---- | ---------------------------------- |
+| 0x00      | 4    | u32 Number of files in the archive |
 
 ### File Table
 
 Starting at offset 0x04, each file entry is 8 bytes:
 
-| Offset(h) | Size | Type | Field  | Description                             |
-| --------- | ---- | ---- | ------ | --------------------------------------- |
-| +0x00     | 4    | u32  | offset | Absolute offset to compressed file data |
-| +0x04     | 4    | u32  | size   | Size of compressed file in bytes        |
+| Offset(h) | Size | Type Description                            |
+| --------- | ---- | ------------------------------------------- |
+| +0x00     | 4    | u32 Absolute offset to compressed file data |
+| +0x04     | 4    | u32 Size of compressed file in bytes        |
 
 ### File Data
 

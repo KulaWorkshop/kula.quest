@@ -10,9 +10,7 @@ defineProps({
 <template>
 	<a class="card" :href="link">
 		<div class="title-row">
-			<h3 class="title">
-				{{ title }}
-			</h3>
+			<h3 class="title">{{ title }}</h3>
 			<Badge v-if="category" type="warning" :text="category" />
 		</div>
 		<p class="description">{{ description }}</p>

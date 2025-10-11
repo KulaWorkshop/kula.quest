@@ -1,5 +1,4 @@
 <script setup>
-import CardLink from './.vitepress/components/CardLink.vue';
 import { VPTeamMembers } from 'vitepress/theme'
 
 const members = [

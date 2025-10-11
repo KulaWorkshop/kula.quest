@@ -30,18 +30,18 @@ The format is comprised of the following structure:
 
 ### Header
 
-| Offset(h) | Size | Type | Field       | Description             |
-| --------- | ---- | ---- | ----------- | ----------------------- |
-| 0x00      | 4    | u32  | sound_count | Number of sound entries |
+| Offset(h) | Size | Type | Description             |
+| --------- | ---- | ---- | ----------------------- |
+| 0x00      | 4    | u32  | Number of sound entries |
 
 ### Sound Table
 
 Starting at offset 0x04, each sound entry is 8 bytes:
 
-| Offset(h) | Size | Type | Field       | Description                                 |
-| --------- | ---- | ---- | ----------- | ------------------------------------------- |
-| +0x00     | 4    | u32  | offset      | Absolute offset to audio data for the sound |
-| +0x04     | 4    | u32  | pitch_value | Pitch value                                 |
+| Offset(h) | Size | Type | Description                                 |
+| --------- | ---- | ---- | ------------------------------------------- |
+| +0x00     | 4    | u32  | Absolute offset to audio data for the sound |
+| +0x04     | 4    | u32  | Pitch value                                 |
 
 ### Audio Data
 

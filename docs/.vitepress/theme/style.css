@@ -1,0 +1,11 @@
+@import 'tailwindcss' layer(none);
+
+:root {
+	--card-link-bg: #f4f4f5;
+	--card-link-bg-hover: #e4e4e7;
+}
+
+.dark {
+	--card-link-bg: #18181b;
+	--card-link-bg-hover: #27272a;
+}

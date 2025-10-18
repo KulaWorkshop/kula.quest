@@ -20,7 +20,7 @@ All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness),
 | -------- | ----------------------- |
 | u32      | Unsigned 32-bit integer |
 
-## Structure
+### Structure
 
 The format is comprised of the following structure:
 
@@ -30,13 +30,15 @@ The format is comprised of the following structure:
 - Filenames
 - Compressed file data
 
-### Header
+## Header
 
-| Offset(h) | Size | Type | Description                    |
-| --------- | ---- | ---- | ------------------------------ |
-| 0x00      | 4    | u32  | Number of files in the archive |
+The first 4 bytes in the file (**note** there is no magic header) specify how many compressed files are inside the archive:
 
-### File Table
+| Offset(h) | Size | Type | Field      | Field      | Description                    |
+| --------- | ---- | ---- | ---------- | ---------- | ------------------------------ |
+| 0x00      | 4    | u32  | file_count | file_count | Number of files in the archive |
+
+## File Table
 
 Starting at offset 0x04, each file entry is 8 bytes:
 
@@ -45,13 +47,13 @@ Starting at offset 0x04, each file entry is 8 bytes:
 | +0x00     | 4    | u32  | Absolute offset to compressed file data |
 | +0x04     | 4    | u32  | Size of compressed file in bytes        |
 
-### File Names
+## File Names
 
 Offsets for each filename immediately follow after the file table:
 
-| Offset(h)               | Size           | Type  | Description                                   |
-| ----------------------- | -------------- | ----- | --------------------------------------------- |
-| 0x04 + (file_count x 8) | 4 x file_count | u32[] | Array of absolute offsets to filename strings |
+| Offset(h)                | Size            | Type  | Description                                   |
+| ------------------------ | --------------- | ----- | --------------------------------------------- |
+| 0x04 + (file_count \* 8) | 4 \* file_count | u32[] | Array of absolute offsets to filename strings |
 
 Each filename is a null-terminated string with a newline character:
 
@@ -61,7 +63,7 @@ Each filename is a null-terminated string with a newline character:
 | Line Feed       | 1    | 0x0A (newline character)         |
 | Null Terminator | 1    | 0x00 (end of string)             |
 
-### File Data
+## File Data
 
 The files are compressed with [**zlib**](https://zlib.net/), an old and commonly used compression algorithm.
 Each buffer starts with the zlib header `78 9C`.

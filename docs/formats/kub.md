@@ -21,7 +21,7 @@ All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness),
 | -------- | ----------------------- |
 | u32      | Unsigned 32-bit integer |
 
-## Structure
+### Structure
 
 The format is comprised of the following structure:
 
@@ -29,13 +29,15 @@ The format is comprised of the following structure:
 - Offset and compressed size of each file
 - Compressed file data
 
-### Header
+## Header
+
+The first 4 bytes in the file (**note** there is no magic header) specify how many compressed files are inside the archive:
 
 | Offset(h) | Size | Type Description                   |
 | --------- | ---- | ---------------------------------- |
 | 0x00      | 4    | u32 Number of files in the archive |
 
-### File Table
+## File Table
 
 Starting at offset 0x04, each file entry is 8 bytes:
 
@@ -44,7 +46,7 @@ Starting at offset 0x04, each file entry is 8 bytes:
 | +0x00     | 4    | u32 Absolute offset to compressed file data |
 | +0x04     | 4    | u32 Size of compressed file in bytes        |
 
-### File Data
+## File Data
 
 The file data starts immediately after the table, with each buffer starting with a null 4-byte value.
 Each file is compressed using [**lzrw3a**](http://www.ross.net/compression/lzrw3a.html), an old and somewhat obscure compression algorithm.

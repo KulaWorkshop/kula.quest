@@ -2,12 +2,6 @@
 
 A custom binary format for storing level information.
 
-<div class="warning custom-block" style="padding-top: 8px">
-
-This format is still under heavy research!
-
-</div>
-
 <div class="tip custom-block" style="padding-top: 8px">
 
 This document contains information about the format structure of level files.
@@ -29,7 +23,7 @@ All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness),
 | -------- | --------------------- |
 | i16      | Signed 16-bit integer |
 
-## Structure
+### Structure
 
 The format is comprised of the following structure:
 
@@ -53,7 +47,7 @@ Every level in the game is essentially a **34x34x34** grid of blocks, with some 
 The first block starts on the top-left front corner of the level, which is at coordinate **0, 0, 0**.
 The last block ends on the bottom-right back corner of the level, which is at coordinate **33, 33, 33**.
 
-<img src="./level_grid.png" alt="level grid." />
+![The bounding box for the first level](/images/level-grid.png)
 
 Based on the illustration above:
 
@@ -182,18 +176,18 @@ struct BlockObject_t {
     i16_t direction;
     i16_t variant;
     i16_t state;
-    i16_t collectableIndex;     // automatically set in memory
-    i16_t toggleObject1;        // buttons and transporters only
-    i16_t toggleObject2;        // buttons and transporters only
-    i16_t animationModelIndex;  // memory only (related to vertex buffer index)
-    i16_t groundOffset;         // only required in demos
-    i16_t rotationType;         // only required in demos
-    i16_t animationValue1;      // memory only
-    i16_t animationValue2;      // memory only
-    i16_t animationValue3;      // memory only
-    i16_t rotationSpeed;        // only required in demos
-    i16_t animationCounter;     // memory only
-    i16_t animationState;       // memory only
+    i16_t collectableIndex;         // automatically set in memory
+    i16_t toggleObject1;            // buttons and transporters only
+    i16_t toggleObject2;            // buttons and transporters only
+    i16_t animationModelIndex = 0;  // memory only (related to vertex buffer index)
+    i16_t groundOffset;             // only required in demos
+    i16_t rotationType;             // only required in demos
+    i16_t animationValue1 = -1;     // memory only
+    i16_t animationValue2 = -1;     // memory only
+    i16_t animationValue3 = -1;     // memory only
+    i16_t rotationSpeed;            // only required in demos
+    i16_t animationCounter = -1;    // memory only
+    i16_t animationState = -1;      // memory only
 };
 ```
 
@@ -304,7 +298,7 @@ The moving block contains 3 position values:
 - **Position 2** - Specifies the other one of two points that the block will move between, and must be positioned **after** position 1.
 - **Starting Position / Current Position** - Specifies what position the moving block will start at when the level is started. This means that the moving block can actually start at a different point along the axis than the two positions specified, though in most cases (and in all cases from the game) this position is usually the same as one of the two points above.
 
-<img src="./moving_axis.png" alt="moving block axis." />
+![Moving blocks and their respective axes](/images/moving-block-axes.png)
 
 Based on the example level seen above, position 1 (green) is always first along the axis than position 2 (blue), regardless of what direction the block is set to.
 
@@ -400,7 +394,7 @@ The direction specifies the direction of the laser:
 - `04 00` indicates Negative X.
 - `05 00` indicates Positive Y.
 
-The **color** property follows the same structure that transporters and buttons do, and can be viewed [here](/formats/objects#color).
+The **color** property follows the same structure that transporters and buttons do, and can be viewed [here](/formats/objects#variant).
 Changing the color actually indexes into the laser's different textures, as each color is its own texture, so setting the value other than 4 changes to textures beyond the boundary, and the game will crash upon turning it on.
 
 **Enabled** specifies whether the laser block is enabled by default when the level is started.
@@ -481,6 +475,8 @@ Based on my research, there is evidence to suggest that the position value is le
 3. In the first level of the game, this position value points to the block that contains the farther right bronze coin, which happened to be moved forward and changed from a gold to a bronze coin from earlier versions of the game.
 
 This is just some examples, but one could reasonably conclude that this position value was likely metadata as it is **never** referenced from within the game's programming.
+It's also worth noting that this position value can be set to a block that isn't contained in the level, likely referencing a deleted block.
+
 The two **unknown short** values before the start time value are also ignored in game, but seem to be always in multiples of 5 and sometimes negative.
 
 ## Version Differences
@@ -541,27 +537,47 @@ if (currentTime == 0x1734) {
 Most levels in the game have the fruit set to a **Banana** (`0x2E`), as the fruit is automatically set based on how many you have collected, **except** for the first alpha release where the order was set manually.
 However, some levels in later versions still have other fruit set, perhaps because they were originally early levels or on accident:
 
-| Release                                                                                                                                        | Level             | Fruit      |
-| ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------- |
-| Main Releases                                                                                                                                  | `INCA\LEVEL 42`   | Watermelon |
-| Main Releases                                                                                                                                  | `HILLS\LEVEL 18`  | Pumpkin    |
-| Main Releases                                                                                                                                  | `HILLS\LEVEL 19`  | Strawberry |
-| Main Releases                                                                                                                                  | `ARCTIC\LEVEL 53` | Pumpkin    |
-| Main Releases                                                                                                                                  | `FIELD\LEVEL 83`  | Apple      |
-| Main Releases                                                                                                                                  | `HAZE\LEVEL 116`  | Watermelon |
-| Main Releases                                                                                                                                  | `MARS\LEVEL 122`  | Watermelon |
-| Kula World and Roll Away                                                                                                                       | `MARS\HIDDEN 9`   | Pumpkin    |
-| Main Releases                                                                                                                                  | `HELL\LEVEL 137`  | Watermelon |
-| Main Releases                                                                                                                                  | `HELL\LEVEL 146`  | Watermelon |
-| Kula World                                                                                                                                     | `HELL\BONUS 30`   | Pumpkin    |
-| [Beta (1998-01-30)](/resources/releases#beta) and [Inca Variant](/resources/releases#beta-inca-variant)                                        | `LEVEL 1`         | Watermelon |
-| [Beta (1998-01-30)](/resources/releases#beta) and [Inca Variant](/resources/releases#beta-inca-variant)                                        | `LEVEL 2`         | Strawberry |
-| [Beta (1998-01-30)](/resources/releases#beta) and [Inca Variant](/resources/releases#beta-inca-variant)                                        | `LEVEL 3`         | Watermelon |
-| [Hyper PlayStation Re-mix 1999 No. 9](/resources/releases#hyper-playstation-re-mix-1999-no-9-japan-disc-2-sony-computer-entertainment-special) | `LEVEL 2`         | Strawberry |
+| Release                                                                                                                                      | Level             | Fruit      |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ---------- |
+| Main Releases                                                                                                                                | `INCA/LEVEL 42`   | Watermelon |
+| Main Releases                                                                                                                                | `HILLS/LEVEL 18`  | Pumpkin    |
+| Main Releases                                                                                                                                | `HILLS/LEVEL 19`  | Strawberry |
+| Main Releases                                                                                                                                | `ARCTIC/LEVEL 53` | Pumpkin    |
+| Main Releases                                                                                                                                | `FIELD/LEVEL 83`  | Apple      |
+| Main Releases                                                                                                                                | `HAZE/LEVEL 116`  | Watermelon |
+| Main Releases                                                                                                                                | `MARS/LEVEL 122`  | Watermelon |
+| Kula World and Roll Away                                                                                                                     | `MARS/HIDDEN 9`   | Pumpkin    |
+| Main Releases                                                                                                                                | `HELL/LEVEL 137`  | Watermelon |
+| Main Releases                                                                                                                                | `HELL/LEVEL 146`  | Watermelon |
+| Kula World                                                                                                                                   | `HELL/BONUS 30`   | Pumpkin    |
+| [Beta (1998-01-30)](/content/releases#beta) and [Inca Variant](/content/releases#beta-inca-variant)                                          | `LEVEL 1`         | Watermelon |
+| [Beta (1998-01-30)](/content/releases#beta) and [Inca Variant](/content/releases#beta-inca-variant)                                          | `LEVEL 2`         | Strawberry |
+| [Beta (1998-01-30)](/content/releases#beta) and [Inca Variant](/content/releases#beta-inca-variant)                                          | `LEVEL 3`         | Watermelon |
+| [Hyper PlayStation Re-mix 1999 No. 9](/content/releases#hyper-playstation-re-mix-1999-no-9-japan-disc-2-sony-computer-entertainment-special) | `LEVEL 2`         | Strawberry |
 
 **LEVEL 125** from Mars is the only level in all releases that contain inaccessible objects hidden by another block, consisting of a couple of fire patches hidden inside a few blocks:
 
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
-    <img src="./hidden_object_1.png" alt="screenshot of the level showing a fire patch hidden in a block." />
-    <img src="./hidden_object_2.png" alt="screenshot of the level showing another fire patch hidden in a different block." />
+    <img src="/images/hidden-object-1.png" alt="Screenshot of the level showing a fire patch hidden in a block." />
+    <img src="/images/hidden-object-2.png" alt="Screenshot of the level showing another fire patch hidden in a different block." />
 </div>
+
+Some levels contain slow moving stars that face the wrong direction, causing them to initially move in the air when the level loads:
+
+![Screenshot of the level showing a slow moving star set to the wrong direction.](/images/start-oddity-level-67.png)
+
+![Screenshot of the level showing another slow moving star set to the wrong direction.](/images/start-oddity-final-4.png)
+
+In the last bonus level in Kula World, every star is incorrectly set to the **Positive X** direction.
+This issue can be observed in the playthrough video _PS1 Kula World 1998 - No Commentary_ by [GameGamer](https://www.youtube.com/@GameGamer), at [2:56:27](https://youtu.be/jBsIFDERgsE?t=10587).
+
+![Screenshot of the bonus level showing all of the slow moving stars set to the wrong direction.](/images/star-oddity-bonus-30.png)
+
+This is also the only level in any release after the alpha that does not contain the [level info property](#level-info-property).
+
+---
+
+In Atlantis, LEVEL 94 is incorrectly spelled "LECEL 94".
+
+For an unknown reason, the captivator and time pause patches have their direction value set to **4** in the **OBJ LEVEL**.
+Additionally, no objects have their direction set to 0 except for capture pods, who's direction value [behaves unpredictably](/formats/objects#capture-pod-direction).

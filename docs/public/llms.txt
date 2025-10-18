@@ -1,4 +1,4 @@
-# Kula Quest Docs
+# Kula Quest Wiki
 
 > An archival project derived from countless hours of reverse engineering and research into the PlayStation 1 game Kula Quest.
 
@@ -9,4 +9,4 @@ The other titles will be used in cases of version differences as needed.
 
 ## Documentation Sets
 
-- [Full Documentation](https://docs.kula.quest/llms-full.txt): The complete Kula Quest documentation.
+- [Full Documentation](https://wiki.kula.quest/llms-full.txt): The complete Kula Quest Wiki documentation.

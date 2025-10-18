@@ -48,7 +48,7 @@ Several resources are available here, including:
 
 - Tutorials for various tools for modding the game.
 - Details for [every known release](/content/releases) and version differences.
-- Technical documentation for most of Kula Quest's custom binary [formats](/formats).
+- Technical documentation for most of Kula Quest's custom binary [formats](/formats/).
 
 ## Credits
 

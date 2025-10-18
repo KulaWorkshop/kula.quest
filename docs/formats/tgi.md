@@ -2,7 +2,7 @@
 
 A custom binary format for storing theme information.
 
-<div class="warning custom-block" style="padding-top: 8px">
+<div class="warning custom-block !pt-2">
 
 This format is still under heavy research!
 

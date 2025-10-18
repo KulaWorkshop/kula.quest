@@ -8,7 +8,7 @@ However, there are multiple soundtracks that aren't included within the main ser
 The most well known removed soundtrack is from the earliest alpha version of the game.
 It can be easily found on various sites such as YouTube.
 
-<iframe width="600" height="400" style="border: none; border-radius: 0.5em; margin-top: 1em;"
+<iframe class="border-none rounded-lg mt-4" width="600" height="400"
 src="https://www.youtube.com/embed/uFph4DZQ6ys">
 </iframe>
 

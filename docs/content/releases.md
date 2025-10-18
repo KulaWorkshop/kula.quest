@@ -75,18 +75,18 @@ It contains 4 levels, with the last one being unlocked when all 3 fruits are col
 
 There are 2 fruits that unused in this demo:
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
-  <img src="/images/fruit-unknown.png" alt="Unused unknown fruit" style="width: 100%;" />
-  <img src="/images/fruit-pumpkin.png" alt="Unused pumpkin fruit" style="width: 100%;" />
+<div class="grid grid-cols-2 gap-2">
+  <img src="/images/fruit-unknown.png" alt="Unused unknown fruit" width="100%" />
+  <img src="/images/fruit-pumpkin.png" alt="Unused pumpkin fruit" width="100%" />
 </div>
 
 As well as 4 unused balls:
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
-  <img src="/images/ball-1.png" alt="Unused ball 1" style="width: 100%;" />
-  <img src="/images/ball-2.png" alt="Unused ball 2" style="width: 100%;" />
-  <img src="/images/ball-3.png" alt="Unused ball 3" style="width: 100%;" />
-  <img src="/images/ball-4.png" alt="Unused ball 4" style="width: 100%;" />
+<div class="grid grid-cols-2 gap-2">
+  <img src="/images/ball-1.png" alt="Unused ball 1" width="100%" />
+  <img src="/images/ball-2.png" alt="Unused ball 2" width="100%" />
+  <img src="/images/ball-3.png" alt="Unused ball 3" width="100%" />
+  <img src="/images/ball-4.png" alt="Unused ball 4" width="100%" />
 </div>
 
 Several unused pieces of text go unused inside the game's executable, including references to world names not found in official releases of the game:
@@ -140,23 +140,23 @@ This item is actually [inside the base games](https://x.com/SaturnKai1/status/12
 
 There are 5 unused present collectables, which have no sound effect or particles and just disappear when touched by the player.
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
-  <img src="/images/present-purple.png" alt="Unused purple present" style="width: 100%;" />
-  <img src="/images/present-red.png" alt="Unused red present" style="width: 100%;" />
-  <img src="/images/present-yellow.png" alt="Unused yellow present" style="width: 100%;" />
-  <img src="/images/present-blue.png" alt="Unused blue present" style="width: 100%;" />
-  <img src="/images/present-green.png" alt="Unused green present" style="width: 100%;" />
+<div class="grid grid-cols-2 gap-2">
+  <img src="/images/present-purple.png" alt="Unused purple present" width="100%" />
+  <img src="/images/present-red.png" alt="Unused red present" width="100%" />
+  <img src="/images/present-yellow.png" alt="Unused yellow present" width="100%" />
+  <img src="/images/present-blue.png" alt="Unused blue present" width="100%" />
+  <img src="/images/present-green.png" alt="Unused green present" width="100%" />
 </div>
 
 The unused "hedgehog" enemy in the main versions have an entirely different model in this demo, and some other models have slight differences as well.
 A full video with a more in depth look at some of these model changes is available [here](https://www.youtube.com/watch?v=YokLTYeL65E).
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
-  <img src="/images/early-enemy-danger.png" alt="Early unused enemy danger" style="width: 100%;" />
-  <img src="/images/early-enemy-safe.png" alt="Early unused enemy safe" style="width: 100%;" />
-  <img src="/images/early-captivator.png" alt="Early captivator" style="width: 100%;" />
-  <img src="/images/early-invincibility-pill.png" alt="Early invincibility pill" style="width: 100%;" />
-  <img src="/images/early-arrow.png" alt="Early arrow" style="width: 100%;" />
+<div class="grid grid-cols-2 gap-2">
+  <img src="/images/early-enemy-danger.png" alt="Early unused enemy danger" width="100%" />
+  <img src="/images/early-enemy-safe.png" alt="Early unused enemy safe" width="100%" />
+  <img src="/images/early-captivator.png" alt="Early captivator" width="100%" />
+  <img src="/images/early-invincibility-pill.png" alt="Early invincibility pill" width="100%" />
+  <img src="/images/early-arrow.png" alt="Early arrow" width="100%" />
 </div>
 
 There are a few unused cheat references:

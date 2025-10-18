@@ -2,7 +2,7 @@
 
 A custom archive format for storing multiple files with compression.
 
-<div class="tip custom-block" style="padding-top: 8px">
+<div class="tip custom-block !pt-2">
 
 This document contains information about the format structure of Pak files.
 If you are interested in using tools to create your own, please visit [here](../tools/quilt.md).

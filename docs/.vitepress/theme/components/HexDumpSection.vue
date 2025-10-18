@@ -25,41 +25,17 @@ const handleMouseEnter = () => {
 
 <template>
 	<span
-		class="section"
+		class="relative cursor-help border-b-1 border-dotted font-mono transition-colors duration-200 hover:!text-red-400"
 		@mouseenter="handleMouseEnter"
 		@mouseleave="show = false"
 		@click="toggleTooltip"
 		:style="{ color: color || '#4ade80', 'border-color': color || '#4ade80' }"
 	>
-		{{ value }}<span v-if="show && note" class="tooltip">{{ note }}</span>
+		{{ value
+		}}<span
+			v-if="show && note"
+			class="pointer-events-none absolute -top-6 left-0 rounded-sm bg-neutral-950 px-2 py-1 text-sm whitespace-nowrap text-neutral-50 opacity-90"
+			>{{ note }}</span
+		>
 	</span>
 </template>
-
-<style scoped>
-.section {
-	font-family: monospace;
-	position: relative;
-	cursor: help;
-	transition: color 0.2s ease;
-	border-bottom-style: dotted;
-	border-bottom-width: 1px;
-}
-
-.section:hover {
-	color: #f87171 !important;
-}
-
-.tooltip {
-	background: #111;
-	color: #eee;
-	position: absolute;
-	top: -1.5em;
-	left: 0;
-	white-space: nowrap;
-	padding: 0.25em 0.5em;
-	border-radius: 0.25em;
-	font-size: 0.8em;
-	pointer-events: none;
-	opacity: 0.9;
-}
-</style>

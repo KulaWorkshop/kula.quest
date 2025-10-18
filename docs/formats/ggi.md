@@ -2,7 +2,7 @@
 
 A custom binary format for storing model and sprite data.
 
-<div class="warning custom-block" style="padding-top: 8px">
+<div class="warning custom-block !pt-2">
 
 This format is still under heavy research!
 
@@ -157,8 +157,8 @@ The last two entries in the table most likely refer to the last two unused prese
 
 Each offset is **relative** to a specific offset:
 
--   Entity offsets are relative from **0x3C**.
--   Object offsets are relative from **0x1CC**.
+- Entity offsets are relative from **0x3C**.
+- Object offsets are relative from **0x1CC**.
 
 ## Model Data
 

@@ -82,30 +82,6 @@ const parsedHexDump = computed(() =>
 
 <template>
 	<pre
-		class="hex-dump"
-	><code><span v-for="(line, index) in parsedHexDump" :key="index"><span class="address">{{ line.address }} </span> <template v-for="(part, partIndex) in line.parts" :key="partIndex"><HexDumpSection v-if="part.type === 'section'" :value="part.value" :note="part.note" :color="part.color" /> <span v-else>{{ part.value }}</span> </template><br></span></code></pre>
+		class="relative overflow-x-auto rounded-lg bg-[var(--vp-code-block-bg)] px-8 py-4 font-mono leading-relaxed whitespace-pre text-[var(--vp-c-text-1)]"
+	><code><span v-for="(line, index) in parsedHexDump" :key="index"><span class="text-neutral-500">{{ line.address }} </span> <template v-for="(part, partIndex) in line.parts" :key="partIndex"><HexDumpSection v-if="part.type === 'section'" :value="part.value" :note="part.note" :color="part.color" /> <span v-else>{{ part.value }}</span> </template><br></span></code></pre>
 </template>
-
-<style>
-.hex-dump {
-	background: var(--vp-code-block-bg);
-	color: var(--vp-c-text-1);
-	padding: 1em 2em;
-	border-radius: 0.5em;
-	overflow-x: auto;
-	font-family: monospace;
-	line-height: 1.5;
-	white-space: pre;
-	position: relative;
-}
-
-.hex-dump code {
-	color: inherit;
-	display: block;
-	white-space: pre;
-}
-
-.address {
-	color: #60a5fa;
-}
-</style>

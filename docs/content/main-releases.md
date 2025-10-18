@@ -1,6 +1,6 @@
 # Main Releases
 
-<div class="warning custom-block" style="padding-top: 8px">
+<div class="warning custom-block !pt-2">
 
 This page is still under construction!
 

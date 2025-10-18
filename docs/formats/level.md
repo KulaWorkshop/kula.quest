@@ -2,7 +2,7 @@
 
 A custom binary format for storing level information.
 
-<div class="tip custom-block" style="padding-top: 8px">
+<div class="tip custom-block !pt-2">
 
 This document contains information about the format structure of level files.
 If you are interested in using tools to create your own, please visit [here](https://example.com).
@@ -557,7 +557,7 @@ However, some levels in later versions still have other fruit set, perhaps becau
 
 **LEVEL 125** from Mars is the only level in all releases that contain inaccessible objects hidden by another block, consisting of a couple of fire patches hidden inside a few blocks:
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+<div class="grid grid-cols-2 gap-2">
     <img src="/images/hidden-object-1.png" alt="Screenshot of the level showing a fire patch hidden in a block." />
     <img src="/images/hidden-object-2.png" alt="Screenshot of the level showing another fire patch hidden in a different block." />
 </div>

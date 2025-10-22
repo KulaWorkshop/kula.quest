@@ -14,7 +14,7 @@
 			<p class="mt-5 leading-loose font-medium text-neutral-400">
 				In the meantime, our <span class="font-semibold text-neutral-100">new wiki</span>
 				is available at
-				<a class="font-semibold text-blue-300" href="https://docs.kula.quest">docs.kula.quest</a>!
+				<a class="font-semibold text-blue-300" href="https://wiki.kula.quest">wiki.kula.quest</a>!
 			</p>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 # Kula Quest Wiki
 
-> An archival project derived from countless hours of reverse engineering and research into the PlayStation 1 game Kula Quest.
+> A comprehensive technical research and documentation wiki for the PlayStation 1 game Kula Quest.
 
 Important notes:
 

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress';
 import footnote_plugin from 'markdown-it-footnote';
 import sidebar from './sidebar';
+import { head, description } from './head';
 import tailwind from '@tailwindcss/vite';
 
 // https://vitepress.dev/reference/site-config
@@ -14,9 +15,9 @@ export default defineConfig({
 			md.use(footnote_plugin);
 		}
 	},
+	lang: 'en-US',
 	title: 'Kula Quest Wiki',
-	description:
-		'An archival project derived from countless hours of reverse engineering and research into the PlayStation 1 game Kula Quest.',
+	description,
 	lastUpdated: true,
 	cleanUrls: true,
 	themeConfig: {
@@ -45,5 +46,5 @@ export default defineConfig({
 
 		logo: '/favicon.svg'
 	},
-	head: [['link', { rel: 'icon', href: '/favicon.svg' }]]
+	head
 });

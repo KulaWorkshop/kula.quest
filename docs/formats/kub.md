@@ -1,6 +1,10 @@
+---
+description: 'A custom archive format for storing multiple files with compression in the oldest demo.'
+---
+
 # Kub Format
 
-A custom archive format for storing multiple files with compression in the oldest demo.
+{{ $frontmatter.description }}
 
 <div class="tip custom-block !pt-2">
 

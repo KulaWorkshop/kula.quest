@@ -1,6 +1,10 @@
+---
+description: 'A command-line utility for modifying SFX files from Kula Quest.'
+---
+
 # mksfx
 
-A command-line utility for modifying SFX files from Kula Quest.
+{{ $frontmatter.description }}
 
 ## Overview
 

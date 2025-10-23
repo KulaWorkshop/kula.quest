@@ -1,6 +1,10 @@
+---
+description: 'A database containing every known object and their properties.'
+---
+
 # Object Table
 
-A database containing every known object and their properties.
+{{ $frontmatter.description }}
 
 ## Overview
 

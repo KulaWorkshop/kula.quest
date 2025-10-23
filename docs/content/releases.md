@@ -1,4 +1,10 @@
+---
+description: 'Every known release and version of Kula Quest.'
+---
+
 # Releases
+
+{{ $frontmatter.description }}
 
 ::: tip Note
 Information regarding the main releases is available [here](/content/main-releases).

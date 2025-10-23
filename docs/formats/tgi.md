@@ -1,6 +1,10 @@
+---
+description: 'A custom binary format for storing theme information.'
+---
+
 # TGI Format
 
-A custom binary format for storing theme information.
+{{ $frontmatter.description }}
 
 <div class="warning custom-block !pt-2">
 

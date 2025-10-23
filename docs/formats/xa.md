@@ -1,6 +1,10 @@
+---
+description: 'A common binary format for storing soundtracks in PlayStation 1 games.'
+---
+
 # XA Format
 
-A common binary format for storing soundtracks in PlayStation 1 games.
+{{ $frontmatter.description }}
 
 ## Soundtrack Tables
 

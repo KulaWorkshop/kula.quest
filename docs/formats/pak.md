@@ -1,6 +1,10 @@
+---
+description: 'A custom archive format for storing multiple files with compression.'
+---
+
 # Pak Format
 
-A custom archive format for storing multiple files with compression.
+{{ $frontmatter.description }}
 
 <div class="tip custom-block !pt-2">
 

@@ -1,6 +1,10 @@
+---
+description: 'A command-line utility for modifying archive files and compression used in Kula Quest.'
+---
+
 # Quilt
 
-A command-line utility for modifying archive files and compression used in Kula Quest.
+{{ $frontmatter.description }}
 
 ## Overview
 

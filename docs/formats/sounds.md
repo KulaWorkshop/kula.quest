@@ -1,6 +1,10 @@
+---
+description: 'Tables containing every sound effect and their pitch value from multiple releases.'
+---
+
 # Sound Table
 
-Tables containing every sound effect and their pitch value from multiple releases.
+{{ $frontmatter.description }}
 
 ## Main Releases
 

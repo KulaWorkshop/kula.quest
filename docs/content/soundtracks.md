@@ -1,4 +1,12 @@
+---
+description: 'Details regarding all known soundtracks from Kula Quest.'
+---
+
 # Soundtracks
+
+{{ $frontmatter.description }}
+
+## Overview
 
 There are **13** official soundtracks in the official releases of Kula Quest, with the first 10 being used for each world in the game, and an additional 3 tracks for bonus and hidden levels.
 However, there are multiple soundtracks that aren't included within the main series of the game.

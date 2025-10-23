@@ -1,6 +1,10 @@
+---
+description: 'A custom binary format for storing sound information.'
+---
+
 # SFX Format
 
-A custom binary format for storing sound information.
+{{ $frontmatter.description }}
 
 <div class="tip custom-block !pt-2">
 

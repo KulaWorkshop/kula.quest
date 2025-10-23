@@ -1,8 +1,9 @@
 import { defineConfig } from 'vitepress';
 import footnote_plugin from 'markdown-it-footnote';
-import sidebar from './sidebar';
-import { head, description } from './head';
+import sidebar from './config/sidebar';
+import { headConfig, transformPageData } from './config/head';
 import tailwind from '@tailwindcss/vite';
+import { SITE_NAME, SITE_DESCRIPTION } from './config/constants';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -16,8 +17,8 @@ export default defineConfig({
 		}
 	},
 	lang: 'en-US',
-	title: 'Kula Quest Wiki',
-	description,
+	title: SITE_NAME,
+	description: SITE_DESCRIPTION,
 	lastUpdated: true,
 	cleanUrls: true,
 	themeConfig: {
@@ -33,8 +34,26 @@ export default defineConfig({
 			{
 				text: 'Resources',
 				items: [
-					{ text: 'Main Homepage', link: 'https://kula.quest' },
-					{ text: 'Kula Workshop', link: 'https://kulaworkshop.net' }
+					{
+						text: 'Other Sites',
+						items: [
+							{ text: 'Main Homepage', link: 'https://kula.quest' },
+							{ text: 'Kula Workshop', link: 'https://kulaworkshop.net' }
+						]
+					},
+					{
+						text: 'Socials',
+						items: [
+							{
+								text: 'GitHub',
+								link: 'https://github.com/KulaWorkshop/'
+							},
+							{
+								text: 'Discord',
+								link: 'https://discord.com/invite/cQzGRCW'
+							}
+						]
+					}
 				]
 			}
 		],
@@ -46,5 +65,6 @@ export default defineConfig({
 
 		logo: '/favicon.svg'
 	},
-	head
+	head: headConfig,
+	transformPageData
 });

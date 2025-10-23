@@ -1,4 +1,10 @@
+---
+description: 'Details regarding the main releases of Kula Quest.'
+---
+
 # Main Releases
+
+{{ $frontmatter.description }}
 
 <div class="warning custom-block !pt-2">
 

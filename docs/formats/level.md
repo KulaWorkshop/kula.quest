@@ -1,6 +1,10 @@
+---
+description: 'A custom binary format for storing level information.'
+---
+
 # Level Format
 
-A custom binary format for storing level information.
+{{ $frontmatter.description }}
 
 <div class="tip custom-block !pt-2">
 

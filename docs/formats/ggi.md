@@ -1,6 +1,10 @@
+---
+description: 'A custom binary format for storing model and sprite data.'
+---
+
 # GGI Format
 
-A custom binary format for storing model and sprite data.
+{{ $frontmatter.description }}
 
 <div class="warning custom-block !pt-2">
 

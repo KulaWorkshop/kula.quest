@@ -40,16 +40,10 @@ The OBJ LEVEL inside Hiro's PAK file was replaced with a new **LESSON** level, s
 
 ![Lesson level](/images/lesson-level.png)
 
-A more obscure unused level is one embedded inside the game's executable, which was later used in [Kula Quest](#kula-quest) for the Time Trial ending:
+A more obscure unused level is one embedded inside the game's executable, which was later used in [Kula Quest](#kula-quest) for the Time Trial ending.
+It does not seem like the code for the ending sequence itself is inside the game:
 
 ![Time Trait ending level](/images/trial-ending-level-1.png)
-
-Unused code for the ending sequence does exist inside the game, and can be activated using a debugger:
-
-<video width="600" controls>
-	<source src="/videos/trial-ending-footage.mp4" type="video/mp4" />
-	Your browser does not support the video tag.
-</video>
 
 Additional changes include:
 
@@ -73,6 +67,13 @@ The Time Trial ending level was slightly changed:
 - The exit and a single key was moved to the same platform as the player spawn.
 
 ![Time Trait ending level](/images/trial-ending-level-2.png)
+
+Here is footage of the ending sequence itself:
+
+<video width="600" controls>
+	<source src="/videos/trial-ending-footage.mp4" type="video/mp4" />
+	Your browser does not support the video tag.
+</video>
 
 Additional changes include:
 

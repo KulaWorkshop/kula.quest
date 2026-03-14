@@ -1,5 +1,11 @@
 import { HeadConfig, PageData, TransformPageContext } from 'vitepress';
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from './constants';
+
+export const SITE_CONFIG = {
+	url: 'https://wiki.kula.quest',
+	title: 'KulaQuest Wiki',
+	description:
+		'A comprehensive technical research and documentation wiki for the PlayStation 1 game Kula Quest.'
+};
 
 function normalize(path: string) {
 	return path.replace(/(^|\/)index\.md$/, '').replace(/\.md$/, '');
@@ -23,19 +29,19 @@ const headConfig: HeadConfig[] = [
 	],
 
 	['meta', { property: 'og:type', content: 'website' }],
-	['meta', { property: 'og:site_name', content: SITE_NAME }],
-	['meta', { property: 'og:title', content: SITE_NAME }],
-	['meta', { property: 'og:description', content: SITE_DESCRIPTION }],
-	['meta', { property: 'og:url', content: SITE_URL }],
-	['meta', { property: 'og:image', content: `${SITE_URL}/favicon.png` }],
+	['meta', { property: 'og:site_name', content: SITE_CONFIG.title }],
+	['meta', { property: 'og:title', content: SITE_CONFIG.title }],
+	['meta', { property: 'og:description', content: SITE_CONFIG.description }],
+	['meta', { property: 'og:url', content: SITE_CONFIG.url }],
+	['meta', { property: 'og:image', content: `${SITE_CONFIG.url}/favicon.png` }],
 	['meta', { name: 'twitter:card', content: 'summary' }],
-	['meta', { name: 'twitter:title', content: SITE_NAME }],
-	['meta', { name: 'twitter:description', content: SITE_DESCRIPTION }],
-	['meta', { name: 'twitter:image', content: `${SITE_URL}/favicon.png` }]
+	['meta', { name: 'twitter:title', content: SITE_CONFIG.title }],
+	['meta', { name: 'twitter:description', content: SITE_CONFIG.description }],
+	['meta', { name: 'twitter:image', content: `${SITE_CONFIG.url}/favicon.png` }]
 ];
 
 function transformPageData(pageData: PageData, ctx: TransformPageContext) {
-	const url = new URL(normalize(pageData.relativePath), SITE_URL).href;
+	const url = new URL(normalize(pageData.relativePath), SITE_CONFIG.url).href;
 	const title = createTitle(ctx.siteConfig.site.title, pageData.title);
 	const description = pageData.frontmatter?.description ?? ctx.siteConfig.site?.description;
 

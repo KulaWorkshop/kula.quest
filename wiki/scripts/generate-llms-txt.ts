@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { glob } from 'glob';
 
-const docsDir = path.resolve('docs');
+const docsDir = path.resolve('wiki');
 
 async function generateLLMsTXT() {
 	// sort input files

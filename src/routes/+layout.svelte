@@ -1,11 +1,13 @@
 <script lang="ts">
-	import '../app.css';
+	import './layout.css';
+	import favicon from '$lib/assets/favicon.svg';
 
 	let { children } = $props();
 </script>
 
 <svelte:head>
-	<title>Kula Quest</title>
+	<link rel="icon" href={favicon} />
+	<title>KulaQuest</title>
 </svelte:head>
 
 {@render children()}

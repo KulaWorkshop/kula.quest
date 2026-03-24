@@ -29,6 +29,7 @@
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/markdown-it-footnote": "^3.0.4",
 		"@types/node": "^22",
+		"@types/three": "^0.183.1",
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.14.0",
@@ -46,7 +47,9 @@
 		"vitepress": "^2.0.0-alpha.16"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^1.0.0-rc.1",
 		"glob": "^13.0.6",
-		"markdown-it-footnote": "^4.0.0"
+		"markdown-it-footnote": "^4.0.0",
+		"three": "^0.183.2"
 	}
 }

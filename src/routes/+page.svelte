@@ -6,29 +6,29 @@
 </script>
 
 <main>
-	<div class="mx-auto mt-45 max-w-[1000px] px-5">
+	<div class="mx-auto mt-20 max-w-[1000px] px-4 sm:mt-32 sm:px-5 lg:mt-45">
 		<div class="mx-auto max-w-screen-sm">
 			<div class="flex items-center justify-center">
 				<p
-					class="rounded-xl bg-neutral-900 px-4 py-1 text-center text-lg font-bold text-neutral-500"
+					class="rounded-xl bg-neutral-900 px-4 py-1 text-center text-sm font-bold text-neutral-500 sm:text-lg"
 				>
 					Coming Soon
 				</p>
 			</div>
 
-			<h1 class="mt-6 text-center text-5xl leading-16 font-bold text-neutral-200">
+			<h1 class="mt-6 text-center text-4xl leading-tight font-bold text-neutral-200 sm:text-5xl sm:leading-16">
 				Preserving a Piece of <span class="text-red-400">PlayStation</span> History.
 			</h1>
-			<p class="mt-8 text-center text-lg leading-relaxed font-medium text-neutral-400">
+			<p class="mt-6 text-center text-base leading-relaxed font-medium text-neutral-400 sm:mt-8 sm:text-lg">
 				A new archive project dedicated to the preservation of the PlayStation 1 game <span
 					class="font-semibold text-neutral-200">Kula Quest</span
 				>, brought to you by the original Kula Workshop team. Soon, this will be our new homepage,
 				so stay tuned!
 			</p>
 
-			<div class="mt-10 flex justify-center gap-5">
+			<div class="mt-10 flex flex-col justify-center gap-4 sm:flex-row sm:gap-5">
 				<a
-					class="rainbow-border flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-medium text-neutral-950"
+					class="rainbow-border flex w-full items-center justify-center gap-2 rounded-xl px-5 py-2 text-sm font-medium text-neutral-950 sm:w-auto"
 					href="https://wiki.kula.quest"
 					target="_blank"
 				>
@@ -36,7 +36,7 @@
 				</a>
 
 				<a
-					class="flex items-center gap-2 rounded-xl border border-neutral-700/50 bg-neutral-900 px-5 py-2 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800"
+					class="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-700/50 bg-neutral-900 px-5 py-2 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 sm:w-auto"
 					href="https://github.com/KulaWorkshop/"
 					target="_blank"
 					><svg class="size-6 fill-neutral-100" viewBox="0 0 1024 1024" fill="none"
@@ -51,10 +51,12 @@
 			</div>
 		</div>
 
-		<h2 class="mt-40 border-t border-neutral-700/30 pt-20 text-3xl font-bold text-neutral-200">
+		<h2
+			class="mt-24 border-t border-neutral-700/30 pt-12 text-2xl font-bold text-neutral-200 sm:mt-40 sm:pt-20 sm:text-3xl"
+		>
 			Legacy Tools
 		</h2>
-		<p class="mt-3 text-lg leading-relaxed font-medium text-neutral-400">
+		<p class="mt-3 text-base leading-relaxed font-medium text-neutral-400 sm:text-lg">
 			These tools are no longer maintained and are not recommended for use, but are still available.
 		</p>
 		<div class="mt-8 mb-50 grid gap-4 sm:grid-cols-2">

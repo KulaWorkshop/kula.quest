@@ -14,13 +14,15 @@
 </svelte:head>
 
 <div class="flex min-h-screen flex-col">
-	<header class="mx-auto mt-6 flex w-full max-w-[1300px] items-center justify-between">
+	<header
+		class="mx-auto mt-4 flex w-full max-w-[1300px] items-center justify-between gap-3 px-4 sm:mt-6 sm:px-6"
+	>
 		<a href={resolve('/')}>
-			<img width="128" src={Logo} alt="KulaQuest" />
+			<img class="w-28 sm:w-32" width="128" src={Logo} alt="KulaQuest" />
 		</a>
 
 		<a
-			class="flex items-center rounded-xl bg-neutral-200 px-5 py-2 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-400"
+			class="flex shrink-0 items-center rounded-xl bg-neutral-200 px-4 py-2 text-xs font-semibold text-neutral-950 transition-colors hover:bg-neutral-400 sm:px-5 sm:text-sm"
 			href="https://wiki.kula.quest"><Book strokeWidth={2.5} class="mr-2 h-4 w-4" /> Wiki</a
 		>
 	</header>
@@ -30,13 +32,13 @@
 	</main>
 
 	<footer
-		class="mx-auto mb-6 flex w-full max-w-[1300px] items-center border-t border-neutral-600/50 pt-4"
+		class="mx-auto mb-6 flex w-full max-w-[1300px] flex-col gap-4 border-t border-neutral-600/50 px-4 pt-4 sm:flex-row sm:items-center sm:px-6"
 	>
-		<p class="text-sm leading-loose font-medium text-neutral-500">
+		<p class="text-center text-sm leading-loose font-medium text-neutral-500 sm:text-left">
 			This website is not affiliated with Game Design Sweden AB or Sony Computer Entertainment.
 		</p>
 
-		<div class="ml-auto">
+		<div class="flex justify-center sm:ml-auto sm:block">
 			<a
 				class="fill-neutral-400 transition-colors hover:fill-neutral-100"
 				aria-label="GitHub"

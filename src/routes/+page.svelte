@@ -16,10 +16,14 @@
 				</p>
 			</div>
 
-			<h1 class="mt-6 text-center text-4xl leading-tight font-bold text-neutral-200 sm:text-5xl sm:leading-16">
-				Preserving a Piece of <span class="text-red-400">PlayStation</span> History.
+			<h1
+				class="mt-6 text-center text-4xl leading-tight font-bold text-neutral-200 sm:text-5xl sm:leading-16"
+			>
+				Preserving a Piece of <span class="psx-text">PlayStation</span> History.
 			</h1>
-			<p class="mt-6 text-center text-base leading-relaxed font-medium text-neutral-400 sm:mt-8 sm:text-lg">
+			<p
+				class="mt-6 text-center text-base leading-relaxed font-medium text-neutral-400 sm:mt-8 sm:text-lg"
+			>
 				A new archive project dedicated to the preservation of the PlayStation 1 game <span
 					class="font-semibold text-neutral-200">Kula Quest</span
 				>, brought to you by the original Kula Workshop team. Soon, this will be our new homepage,
@@ -57,18 +61,23 @@
 			Legacy Tools
 		</h2>
 		<p class="mt-3 text-base leading-relaxed font-medium text-neutral-400 sm:text-lg">
-			These tools are no longer maintained and are not recommended for use, but are still available.
+			These tools are no longer maintained and are not recommended for use, but are still available
+			on our <a
+				href="https://legacy.kula.quest/"
+				target="_blank"
+				class="font-semibold text-indigo-400 hover:text-indigo-300 hover:underline">legacy site</a
+			>.
 		</p>
 		<div class="mt-8 mb-50 grid gap-4 sm:grid-cols-2">
 			<DeprecatedProject
 				Icon={LayoutGrid}
-				href="/tools/level-editor"
+				href="https://legacy.kula.quest/tools/leveleditor/fresh/"
 				title="Level Editor"
 				description="A browser-based level editor for viewing and editing levels."
 			/>
 			<DeprecatedProject
 				Icon={Package}
-				href="/tools/pak-editor"
+				href="https://legacy.kula.quest/tools/pakeditor/"
 				title="Pak Editor"
 				description="A browser-based editor for game archive PAK files."
 			/>
@@ -77,6 +86,43 @@
 </main>
 
 <style>
+	.psx-text {
+		background: linear-gradient(
+			45deg,
+			#4ade80 0%,
+			#4ade80 8%,
+			#f87171 14%,
+			#f87171 20%,
+			#f472b6 26%,
+			#f472b6 32%,
+			#60a5fa 38%,
+			#60a5fa 44%,
+			#4ade80 50%,
+			#4ade80 58%,
+			#f87171 64%,
+			#f87171 70%,
+			#f472b6 76%,
+			#f472b6 82%,
+			#60a5fa 88%,
+			#60a5fa 94%,
+			#4ade80 100%
+		);
+		background-size: 200% 200%;
+		animation: psx-text-shift 15s linear infinite;
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	@keyframes psx-text-shift {
+		from {
+			background-position: 100% 0%;
+		}
+		to {
+			background-position: 0% 100%;
+		}
+	}
+
 	@property --wiki-rainbow-angle {
 		syntax: '<angle>';
 		initial-value: 0deg;

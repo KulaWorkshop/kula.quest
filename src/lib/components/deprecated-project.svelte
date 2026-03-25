@@ -1,13 +1,13 @@
 <script lang="ts">
 	import ExternalLink from '@lucide/svelte/icons/external-link';
-	import { resolve } from '$app/paths';
 
 	let { Icon, href, title, description } = $props();
 </script>
 
 <a
 	class="group relative flex flex-col rounded-xl border border-neutral-700/50 bg-neutral-900/40 p-6 shadow-sm hover:border-neutral-600 hover:bg-neutral-800/50 hover:shadow-md"
-	href={resolve(href)}
+	// eslint-disable-next-line svelte/no-navigation-without-resolve
+	{href}
 	target="_blank"
 	rel="noopener noreferrer"
 >

@@ -26,3 +26,6 @@ vite.config.ts.timestamp-*
 # Vitepress
 wiki/.vitepress/dist
 wiki/.vitepress/cache
+# Paraglide
+src/lib/paraglide
+project.inlang/cache/

@@ -5,7 +5,7 @@ export const themeConfig: DefaultTheme.Config = {
 	outline: 'deep',
 	externalLinkIcon: true,
 	editLink: {
-		pattern: 'https://github.com/kulaworkshop/kula.quest/edit/main/docs/:path'
+		pattern: 'https://github.com/kulaworkshop/kula.quest/edit/main/wiki/:path'
 	},
 	search: {
 		provider: 'local'
@@ -16,10 +16,7 @@ export const themeConfig: DefaultTheme.Config = {
 			items: [
 				{
 					text: 'Other Sites',
-					items: [
-						{ text: 'Main Homepage', link: 'https://kula.quest' },
-						{ text: 'Kula Workshop', link: 'https://kulaworkshop.net' }
-					]
+					items: [{ text: 'Main Homepage', link: 'https://kula.quest' }]
 				},
 				{
 					text: 'Socials',

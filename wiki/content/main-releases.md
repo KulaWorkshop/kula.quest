@@ -1,12 +1,12 @@
 ---
-description: 'Details regarding the main releases of Kula Quest.'
+description: 'Details regarding the main releases of KulaQuest.'
 ---
 
 # Main Releases
 
 {{ $frontmatter.description }}
 
-<div class="warning custom-block !pt-2">
+<div class="warning custom-block pt-2!">
 
 This page is still under construction!
 
@@ -40,7 +40,7 @@ The OBJ LEVEL inside Hiro's PAK file was replaced with a new **LESSON** level, s
 
 ![Lesson level](/images/lesson-level.png)
 
-A more obscure unused level is one embedded inside the game's executable, which was later used in [Kula Quest](#kula-quest) for the Time Trial ending.
+A more obscure unused level is one embedded inside the game's executable, which was later used in [KulaQuest (Japan)](#kulaquest) for the Time Trial ending.
 It does not seem like the code for the ending sequence itself is inside the game:
 
 ![Time Trait ending level](/images/trial-ending-level-1.png)
@@ -53,11 +53,11 @@ Additional changes include:
 - Several [.TGI](/formats/tgi) files are changed.
   Notably, the dark side in Hiro's theme is a little brighter in this version.
 
-## Kula Quest <Badge type="tip" text="SCPS-10064" />
+## KulaQuest <Badge type="tip" text="SCPS-10064" />
 
-<img src="/images/cover-scps10064.jpg" alt="Kula Quest cover" width="400px" />
+<img src="/images/cover-scps10064.jpg" alt="KulaQuest cover" width="400px" />
 
-Kula Quest was released on **May 27th, 1999** and was published by [Sony Computer Entertainment](https://en.wikipedia.org/wiki/Sony_Interactive_Entertainment).
+KulaQuest was released on **May 27th, 1999** and was published by [Sony Computer Entertainment](https://en.wikipedia.org/wiki/Sony_Interactive_Entertainment).
 With it being the most recent official release, it contains a multitude of new features and adjustments than the previous versions.
 
 The Time Trial ending level was slightly changed:
@@ -87,4 +87,4 @@ Cover sources:
 
 - [Kula World Cover](https://en.wikipedia.org/wiki/Kula_World#/media/File:Kula_World_Coverart.png), Wikipedia
 - [Roll Away Cover](https://www.mobygames.com/game/9070/roll-away/cover/group-26080/cover-67016/), MobyGames
-- [Kula Quest Cover](https://archive.org/details/kulaquestjapan), Internet Archive
+- [KulaQuest Cover](https://archive.org/details/kulaquestjapan), Internet Archive

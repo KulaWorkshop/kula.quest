@@ -1,5 +1,5 @@
 ---
-description: 'Every known release and version of Kula Quest.'
+description: 'Every known release and version of KulaQuest.'
 ---
 
 # Releases
@@ -39,9 +39,9 @@ Releases marked in **blue** are unique to that disc, totaling to **10** known ve
 | `SCES-01000` | [Kula World (Europe)](/content/main-releases#kula-world)                                                                        | <Badge type="tip" text="1998-03-30" />     | PAL      |
 | `SCES-01000` | [Kula World Prototype (Europe)](#kula-world-prototype-europe)                                                                   | <Badge type="tip" text="1998-06-30" />     | PAL      |
 | `SLUS-00724` | [Roll Away (North America)](/content/main-releases#roll-away)                                                                   | <Badge type="tip" text="1998-09-06" />     | NTSC-U/C |
-| `SCPS-10064` | [Kula Quest (Japan)](/content/main-releases#kula-quest)                                                                         | <Badge type="tip" text="1998-11-09" />     | NTSC-J   |
+| `SCPS-10064` | [KulaQuest (Japan)](/content/main-releases#kulaquest)                                                                           | <Badge type="tip" text="1998-11-09" />     | NTSC-J   |
 | `PCPX-96142` | [Play-Pre Vol. 16 (Japan) (Disc 1)](#play-pre-vol-16-japan-disc-1)                                                              | <Badge type="tip" text="1998-11-20" />     | NTSC-J   |
-| `PCPX-96121` | [Kula Quest Taikenban (Japan)](#kula-quest-taikenban-japan)                                                                     | <Badge type="tip" text="1999-01-22" />     | NTSC-J   |
+| `PCPX-96121` | [KulaQuest Taikenban (Japan)](#kulaquest-taikenban-japan)                                                                       | <Badge type="tip" text="1999-01-22" />     | NTSC-J   |
 | `SLPM-80423` | [Famitsu Wave 6gatsu-gou Vol. 11 (Japan)](#famitsu-wave-6gatsu-gou-vol-11-japan)                                                | <Badge type="tip" text="1999-02-19" />     | NTSC-J   |
 | `SCED-01850` | [Euro Demo 30 (France)](#euro-demo-30-france)                                                                                   | <Badge type="warning" text="1999-03-04" /> | PAL      |
 | `SLPM-80425` | [Dengeki PlayStation D19 (Japan)](#dengeki-playstation-d19-japan)                                                               | <Badge type="tip" text="1999-03-05" />     | NTSC-J   |
@@ -76,7 +76,7 @@ The executable date and PVD timestamps are usually inaccurate, so this method wa
 | ----- | ---------------- |
 | Hiro  | 4 (1 unlockable) |
 
-This is the earliest known build of the game released, when the game was originally intended to be called **Kula Quest** worldwide.
+This is the earliest known build of the game released, when the game was originally intended to be called **KulaQuest** worldwide.
 It contains 4 levels, with the last one being unlocked when all 3 fruits are collected.
 
 There are 2 fruits that unused in this demo:
@@ -245,7 +245,7 @@ Some of the HUD sprites are slightly squished in height for an unknown reason as
 | ----- | ------ | ------------ |
 | Hiro  | 5      | 1            |
 
-### Kula Quest Taikenban (Japan) <Badge type="tip" text="PCPX-96121" />
+### KulaQuest Taikenban (Japan) <Badge type="tip" text="PCPX-96121" />
 
 ![Screenshot of the title screen](/images/title-PCPX-96121.png)
 
@@ -301,7 +301,7 @@ Allows for turn delay to be toggled.
 | ----- | ------ | ------------ |
 | Haze  | 10     | 2            |
 
-Level 7 contains a [level flag property](/formats/level#level-flag-property) that the game is not programmed to ignore in the final completion percentage, despite the executable being dated after the final Kula Quest release.
+Level 7 contains a [level flag property](/formats/level#level-flag-property) that the game is not programmed to ignore in the final completion percentage, despite the executable being dated after the final KulaQuest release.
 Subsequently, this causes the level to never show a **100%** completion, as the game thinks there's an additional item to be collected.
 
 Additionally, for some reason the Haze soundtrack used in this demo is a version shorted to **2 minutes and 40 seconds**, as oppose to being **5 minutes and 9 seconds**.
@@ -405,7 +405,7 @@ The file has been truncated for size.
 ### Euro Demo 10-01 (Germany) <Badge type="info" text="SCED-03473" />
 
 The music is bugged in this demo and is completely silent, despite the game files being identical to other discs containing the same version.
-Additionally, the demo itself titles the game as "Kula World" instead of Kula Quest like it should.
+Additionally, the demo itself titles the game as "Kula World" instead of KulaQuest like it should.
 
 ### Demo One (Version 6) (Europe) <Badge type="info" text="PBPX-95007" />
 

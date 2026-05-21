@@ -8,7 +8,7 @@ description: 'A common binary format for storing soundtracks in PlayStation 1 ga
 
 ## Soundtrack Tables
 
-Every XA file in Kula Quest contains 4 tracks, ordered by duration, even if it's the same track interleaved 4 times.
+Every XA file in KulaQuest contains 4 tracks, ordered by duration, even if it's the same track interleaved 4 times.
 Below are tables documenting each soundtrack in each XA file from the main releases.
 
 ### Main Releases
@@ -22,7 +22,7 @@ Below are tables documenting each soundtrack in each XA file from the main relea
 | `MUSIC_2.XA` | FIELD • 4:36   | BONUS 3 • 4:52  | INCA • 5:01    | ARCTIC • 5:08  |
 | `MUSIC_3.XA` | HAZE • 5:14    | ATLANTIS • 5:18 | HILLS • 6:05   | COWBOY • 6:21  |
 
-In **Roll Away** and **Kula Quest**, the tracks are slightly shorted and the BONUS 1 and BONUS 2 tracks are switched:
+In **Roll Away** and **KulaQuest (Japan)**, the tracks are slightly shorted and the BONUS 1 and BONUS 2 tracks are switched:
 
 | File         | Track 1        | Track 2         | Track 3        | Track 4        |
 | ------------ | -------------- | --------------- | -------------- | -------------- |

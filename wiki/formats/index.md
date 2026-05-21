@@ -1,6 +1,6 @@
 # Formats
 
-Technical specifications are available for most of Kula Quest's custom binary formats.
+Technical specifications are available for most of KulaQuest's custom binary formats.
 
 ## Overview
 

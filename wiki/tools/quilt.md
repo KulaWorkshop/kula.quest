@@ -1,5 +1,5 @@
 ---
-description: 'A command-line utility for modifying archive files and compression used in Kula Quest.'
+description: 'A command-line utility for modifying archive files and compression used in KulaQuest.'
 ---
 
 # Quilt
@@ -8,7 +8,7 @@ description: 'A command-line utility for modifying archive files and compression
 
 ## Overview
 
-Kula Quest uses custom archive formats for storing multiple compressed files into one file, similar to [**.ZIP**](<https://en.wikipedia.org/wiki/ZIP_(file_format)>) files.
+KulaQuest uses custom archive formats for storing multiple compressed files into one file, similar to [**.ZIP**](<https://en.wikipedia.org/wiki/ZIP_(file_format)>) files.
 The most common of these formats are [**.PAK**](/formats/pak) files, and are primarily used for **storing levels** associated with a world, though they are used for other purposes such as storing HUD textures and demo completion screenshots.
 In the first demo release of the game, a slightly different [**.KUB**](/formats/kub) format is used instead of Pak files, which does not preserve filenames and uses a different compression algorithm.
 

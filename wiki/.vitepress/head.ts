@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
 	url: 'https://wiki.kula.quest',
 	title: 'KulaQuest Wiki',
 	description:
-		'A comprehensive technical research and documentation wiki for the PlayStation 1 game Kula Quest.'
+		'A comprehensive technical research and documentation wiki for the PlayStation 1 game KulaQuest.'
 };
 
 function normalize(path: string) {
@@ -24,7 +24,7 @@ const headConfig: HeadConfig[] = [
 		{
 			name: 'keywords',
 			content:
-				'Kula World, Roll Away, Kula Quest, PlayStation, PS1, Wiki, Modding, Reverse Engineering, Game Formats, Documentation'
+				'Kula World, Roll Away, KulaQuest, Kula Quest, PlayStation, PS1, Wiki, Modding, Reverse Engineering, Game Formats, Documentation'
 		}
 	],
 

@@ -46,7 +46,7 @@ Here is the sound table used in both **Kula World** and **Roll Away**:
 | 32    | Fast-moving Star      | 9216        |
 | 33    | Bonus Tile            | 6400        |
 
-In **Kula Quest**, the unused **sound 29** was replaced with a level completion sound affect, as well as more sounds being added:
+In **KulaQuest (Japan)**, the unused **sound 29** was replaced with a level completion sound affect, as well as more sounds being added:
 
 | Index | Name                        | Pitch Value |
 | ----- | --------------------------- | ----------- |
@@ -71,9 +71,9 @@ It's unknown if these original sound effects were intended to be used for the bo
 
 ## Japanese Demos
 
-In the following Japanese Kula Quest demos, the SFX file is sightly different. The level completion 100% sound is swapped with the non-100% completion sound, and the non-100% completion sound was changed to a completely new sound:
+In the following Japanese KulaQuest demos, the SFX file is sightly different. The level completion 100% sound is swapped with the non-100% completion sound, and the non-100% completion sound was changed to a completely new sound:
 
-- Kula Quest Taikenban <Badge type="tip" text="PCPX-96121" />
+- KulaQuest Taikenban <Badge type="tip" text="PCPX-96121" />
 - Famitsu Wave 6gatsu-gou Vol. 11 <Badge type="tip" text="SLPM-80423" />
 - Hyper PlayStation Re-mix 1999 No. 6 <Badge type="tip" text="SLPM-80424" />
 - Dengeki PlayStation D19 <Badge type="tip" text="SLPM-80425" />

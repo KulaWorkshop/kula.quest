@@ -6,7 +6,7 @@
 </script>
 
 <main>
-	<div class="mx-auto mt-20 max-w-[1000px] px-4 sm:mt-32 sm:px-5 lg:mt-45">
+	<div class="mx-auto mt-20 max-w-250 px-4 sm:mt-32 sm:px-5 lg:mt-45">
 		<div class="mx-auto max-w-screen-sm">
 			<div class="flex items-center justify-center">
 				<p
@@ -25,7 +25,7 @@
 				class="mt-6 text-center text-base leading-relaxed font-medium text-neutral-400 sm:mt-8 sm:text-lg"
 			>
 				A new archive project dedicated to the preservation of the PlayStation 1 game <span
-					class="font-semibold text-neutral-200">Kula Quest</span
+					class="font-semibold text-neutral-200">KulaQuest</span
 				>, brought to you by the original Kula Workshop team. Soon, this will be our new homepage,
 				so stay tuned!
 			</p>
@@ -65,7 +65,7 @@
 			on our <a
 				href="https://legacy.kula.quest/"
 				target="_blank"
-				class="font-semibold text-indigo-400 hover:text-indigo-300 hover:underline">legacy site</a
+				class="font-semibold text-neutral-300 underline hover:text-neutral-200">legacy site</a
 			>.
 		</p>
 		<div class="mt-8 mb-50 grid gap-4 sm:grid-cols-2">

@@ -65,8 +65,8 @@ const sidebar: DefaultTheme.Sidebar = [
 				text: 'Graphics',
 				collapsed: true,
 				items: [
-					{ text: 'TGI Format', link: '/formats/tgi' },
-					{ text: 'GGI Format', link: '/formats/ggi' }
+					{ text: 'GGI Format', link: '/formats/ggi' },
+					{ text: 'TGI Format', link: '/formats/tgi' }
 				]
 			},
 			{

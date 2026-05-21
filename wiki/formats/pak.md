@@ -15,7 +15,7 @@ If you are interested in using tools to create your own, please visit [here](../
 
 ## Overview
 
-Kula Quest uses a custom archive format for storing multiple compressed files into one file, similar to [**.ZIP**](<https://en.wikipedia.org/wiki/ZIP_(file_format)>) files.
+KulaQuest uses a custom archive format for storing multiple compressed files into one file, similar to [**.ZIP**](<https://en.wikipedia.org/wiki/ZIP_(file_format)>) files.
 This file format is known as **.PAK**, and is primarily used for storing levels in a world, though it is used for other purposes such as storing HUD textures and demo completion screenshots.
 
 All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness), and the following data types will be used:

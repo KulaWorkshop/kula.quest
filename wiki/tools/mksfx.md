@@ -1,5 +1,5 @@
 ---
-description: 'A command-line utility for modifying SFX files from Kula Quest.'
+description: 'A command-line utility for modifying SFX files from KulaQuest.'
 ---
 
 # mksfx
@@ -8,7 +8,7 @@ description: 'A command-line utility for modifying SFX files from Kula Quest.'
 
 ## Overview
 
-Kula Quest uses a custom binary format known as [**.SFX**](/formats/sfx) for storing sound effects used in gameplay.
+KulaQuest uses a custom binary format known as [**.SFX**](/formats/sfx) for storing sound effects used in gameplay.
 There is only one of these files on a disc, and **mksfx** can extract its contents as **WAV** files, as well as build them from a configuration file.
 
 ## Installation

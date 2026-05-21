@@ -21,7 +21,7 @@ async function generateLLMsTXT() {
 	const outputPath = path.resolve(docsDir, 'public', 'llms-full.txt');
 	const outfileStream = fs.createWriteStream(outputPath, { encoding: 'utf-8' });
 	outfileStream.write(
-		'<SYSTEM>This is the full documentation for Kula Quest.</SYSTEM>\n\n# Start of Kula Quest documentation\n\n'
+		'<SYSTEM>This is the full documentation for KulaQuest.</SYSTEM>\n\n# Start of KulaQuest documentation\n\n'
 	);
 
 	// catalog documentation

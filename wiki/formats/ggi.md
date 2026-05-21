@@ -1,336 +1,400 @@
 ---
-description: 'A custom binary format for storing model and sprite data.'
+description: 'A custom binary format for storing global game assets.'
 ---
 
 # GGI Format
 
 {{ $frontmatter.description }}
 
-<div class="warning custom-block !pt-2">
+<div class="warning custom-block pt-2!">
 
 This format is still under heavy research!
 
 </div>
 
+**Contents:**
+[[toc]]
+
 ## Overview
 
-```c
-struct GGIData_t {
-    GGIHeader_t header;
-    ModelTable_t model_table;
-};
+This format is used for storing all of the global, non theme-specific assets in the game:
+
+- 3D model geometry for every in-game object
+- Animation and lookup tables
+- Sprite textures
+
+There is only one of this file on disc, typically stored under the first level's path, and is loaded on startup.
+All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness), and the following primitive types will be used throughout this document:
+
+| Encoding | Description             |
+| -------- | ----------------------- |
+| u8       | Unsigned 8-bit integer  |
+| i16      | Signed 16-bit integer   |
+| i32      | Signed 32-bit integer   |
+| string   | C-style null-terminated |
+
+## Structure
+
+```bstruct
+struct GGIFile {
+  Header header;
+  EntityTable entityTable;
+  ObjectTable objectTable;
+  u8 modelData[];
+  u8 hourglassAnim[];
+  u8 depthCueLookup[];
+  u8 _unknownSection[];
+  string dummySection = "dummy!!!\r\n\r\n";
+  u8 jumpAnim[];
+  u8 spriteSheet[];
+}
 ```
 
 ## Header
 
-```c
-struct GGIHeader_t {
-    int32_t sprite_group_index_1;
-    int32_t sprite_group_index_2_enc;
-    int32_t sprite_group_index_3_enc; // fancy numbers / text
-    int32_t sprite_group_index_4_enc; // hidden level particles (do not seem affected though)
-    int32_t sprite_group_index_5_enc; // bonus meter
-    int32_t sprite_group_index_6_enc; // hourglass sprite to the end
-
-    int32_t hourglass_anim_offset_enc; // hourglass spin animation
-    int32_t unk_offset1_enc; // block lighting related
-    int32_t unk_offset2_enc; // possibly ignored in game, doesn't seem to be read anywhere
-    int32_t dummy_offset_enc; // offset to "dummy!!!" text
-    int32_t ball_anim_enc; // ball bounce animation
-    int32_t sprites_offset_enc;
-    int32_t file_size_enc;
-    int32_t entity_table_offset_enc;
-    int32_t object_table_offset_enc;
-};
+```bstruct
+struct Header {
+  i32 spriteCountFruits;
+  i32 spriteCountParticles;
+  i32 spriteCountLensFlareAndMenuBackgrounds;
+  i32 spriteCountTextElements;
+  i32 spriteCountHiddenLevelParticles;
+  i32 spriteCountBonusLevelWidgets;
+  i32 rawOffsetHourglassAnim;
+  i32 rawOffsetDepthCueLookup;
+  i32 rawOffsetUnknown;
+  i32 rawOffsetDummy;
+  i32 rawOffsetJumpAnim;
+  i32 rawOffsetSprites;
+  i32 rawFileSize;
+  i32 rawOffsetEntityTable;
+  i32 rawOffsetObjectTable;
+}
 ```
 
-The first part of the header contain indexes to different groups of sprites:
-
-1. Sprites relating to object collection and teleportation affects.
-2. Sprites relating to the sun glare and scores / loading screen blue background boxes.
-3. Sprites relating to menu text elements.
-4. Sprites relating to the hidden level sky particles, although **does not seem to affect them**.
-5. Sprites relating to the bonus level HUD.
-6. Sprites relating to the hourglass hud and various other text elements; the rest of the sprites.
+The first 6 values in the header pertain to different groups of sprites.
+The 7 section offsets (include `rawFileSize`) form a half-delta encoded chain of values, anchored at 0x34:
 
 ```c
-// decoding the sprite indexes
-sprite_group_index_1 = sprite_group_index_1;
-sprite_group_index_2 = sprite_group_index_1 + sprite_group_index_2_enc;
-sprite_group_index_3 = sprite_group_index_2 + sprite_group_index_3_enc;
-sprite_group_index_4 = sprite_group_index_3 + sprite_group_index_4_enc;
-sprite_group_index_5 = sprite_group_index_4 + sprite_group_index_5_enc;
-sprite_group_index_6 = sprite_group_index_5 + sprite_group_index_6_enc;
+// decoding the first 7 offsets
+int abs[7];
+abs[0] = raw[0] * 2 + 0x34;
+for (int n = 1; n < 7; n++) {
+  abs[n] = raw[n] * 2 + abs[n - 1];
+}
 ```
 
-Every offset contained in the header is encoded in the following manner for an unknown reason:
+The last 2 values, `offsetEntityTable` and `offsetObjectTable`, are encoded in a different manner:
 
 ```c
-// decoding the first six offsets
-hourglass_anim_offset = hourglass_anim_offset_enc * 2 + 0x34;
-unk_offset1    = unk_offset1_enc    * 2 + hourglass_anim_offset;
-unk_offset2    = unk_offset2_enc    * 2 + unk_offset1;
-dummy_offset   = dummy_offset_enc   * 2 + unk_offset2;
-ball_anim      = ball_anim_enc      * 2 + dummy_offset;
-sprites_offset = sprites_offset_enc * 2 + ball_anim;
-file_size      = file_size_enc      * 2 + sprites_offset;
-
-// decoding the two table offsets
-entity_table_offset = ((entity_table_offset_enc >> 2) + 0xD) * 4;
-object_table_offset = ((object_table_offset_enc >> 2) + 0xD) * 4;
+// decoding the 2 table offsets
+offsetEntityTable = ((rawOffsetEntityTable >> 2) + 0xD) * 4;
+offsetObjectTable = ((rawOffsetObjectTable >> 2) + 0xD) * 4;
 ```
 
 ## Model Table
 
-```c
-struct ModelTable_t {
-    // entities
-    ModelEntry_Entity_t world_balls[10];
-    ModelEntry_Entity_t bonus_balls[3];
-    ModelEntry_Entity_t hidden_ball;
-    ModelEntry_Entity_t padding[6];
-    ModelEntry_Entity_t slow_star;
-    ModelEntry_Entity_t tire;
-    ModelEntry_Entity_t fast;
-    ModelEntry_Entity_t capture_pod;
-    ModelEntry_Entity_t captivator;
+The model table occupies the region from offset `0x03C` to `0xE4B` (0xE10 total bytes).
+They are split into 2 contiguous sub-tables:
 
-    // objects
-    ModelEntry_Variants_t padding[5];
-    ModelEntry_Variants_t transporters;
-    ModelEntry_Variants_t padding;
-    ModelEntry_Variants_t exits;
-    ModelEntry_Variants_t padding[2];
-    ModelEntry_Variants_t buttons;
-    ModelEntry_Variants_t bounce_pad;
-    ModelEntry_Variants_t moving_spike;
-    ModelEntry_Variants_t spike;
-    ModelEntry_Variants_t padding[13];
-    ModelEntry_Variants_t hidden_exit;
-    ModelEntry_Variants_t fruit_bowl;
-    ModelEntry_Variants_t arrow;
-    ModelEntry_Variants_t padding[2];
-    ModelEntry_Variants_t key;
-    ModelEntry_Variants_t lethargy_pill;
-    ModelEntry_Variants_t bounce_pill;
-    ModelEntry_Variants_t invincibility_pill;
-    ModelEntry_Variants_t hourglass;
-    ModelEntry_Variants_t gems;
-    ModelEntry_Variants_t coins;
-    ModelEntry_Variants_t sunglasses;
-    ModelEntry_Variants_t present_1;
-    ModelEntry_Variants_t present_2;
-    ModelEntry_Variants_t present_3;
-    ModelEntry_Variants_t hedgehog;
-    ModelEntry_Variants_t apple;
-    ModelEntry_Variants_t watermelon;
-    ModelEntry_Variants_t pumpkin;
-    ModelEntry_Variants_t banana;
-    ModelEntry_Variants_t strawberry;
-    ModelEntry_Variants_t unknown;
-    ModelEntry_Variants_t unknown;
-};
+| Sub-table    | Offset | Entry Count | Entry Size | Total Size |
+| ------------ | ------ | ----------- | ---------- | ---------- |
+| Entity table | 0x03C  | 25          | 0x10       | 0x190      |
+| Object table | 0x1CC  | 50          | 0x40       | 0xC80      |
 
-struct ModelEntry_Entity_t {
-    int32_t lod_offset_1;
-    int32_t lod_offset_2;
-    int32_t lod_offset_3;
-    int32_t padding; // a 4th LOD offset is available in demos
-}; // 0x10 bytes
+The order of the objects in the table is the same as the order of the objects from the [object table](/formats/objects), except the objects without variants are placed **after** the objects with variants.
+For an odd reason, despite there being 2 unknown level objects in the game between the capture pod and the captivator, the captivator precedes directly after the capture pod in the model table.
 
-struct ModelEntry_Variants_t {
-    typedef struct {
-        int32_t variant1_Loffset;
-        int32_t variant2_Loffset;
-        int32_t variant3_Loffset;
-        int32_t variant4_Loffset;
-    } Variant_LOD_offset_t;
+### Entity Table
 
-    Variant_LOD_offset_t L1;
-    Variant_LOD_offset_t L2;
-    Variant_LOD_offset_t L3;
-    int32_t padding[4];
-}; // 0x40 bytes
+The entity table lists all balls and ememy objects, where each entry holds 3 level-of-detail (LOD) offsets, with the 1st being the highest quality, and the 3rd being the lowest quality.
+Not every model utilizes all 3 LODs, using the same offset for 2 or 3 LOD entries.
+All offsets in this table are relative to **0x3C** (the start of the table):
+
+```bstruct
+// Entity Table - 0x190 bytes
+struct EntityTable {
+  EntityEntry worldBalls[10];
+  EntityEntry bonusBalls[3];
+  EntityEntry hiddenBall;
+  EntityEntry _reserved0[6];
+  EntityEntry slowStar;
+  EntityEntry tire;
+  EntityEntry fastStar;
+  EntityEntry capturePod;
+  EntityEntry captivator;
+}
+
+// Entity Entry - 0x10 bytes
+struct EntityEntry {
+  i32 lod1;            // highest quality
+  i32 lod2;            // medium quality
+  i32 lod3;            // lowest quality
+  i32 _reserved = -1;  // a 4th LOD offset is available in older demo versions
+}
 ```
 
-The model offset table begins at offset **$3C** in the file and is where the game references each object's model. Every model has **three** different levels of detail (LOD), with the first being the **highest quality** when the player is closest to the model, and the third being the **lowest quality** when the player is further from the model. Every entry in the table contains offsets to these different quality models, with each offset being denoted with an "L" in the structure above.
+### Object Table
 
-Padding between entries in the table are always set to **-1**.
+The object table lists all the rest of the objects that contain models, with each entry supporting up to **4** different variants (e.g. different colors, states, ...) across the same 3 LODs.
+All offsets in this table are relative to **0x1CC** (the start of the table):
 
-The last two entries in the table most likely refer to the last two unused presents in the demo.
+```bstruct
+// Object Table - 0xC80 bytes
+struct ObjectTable {
+  ObjectEntry _reserved0[5];
+  ObjectEntry transporter;
+  ObjectEntry _reserved1;
+  ObjectEntry exit;
+  ObjectEntry _reserved2;
+  ObjectEntry button;
+  ObjectEntry bouncePad;
+  ObjectEntry movingSpikes;
+  ObjectEntry spikes;
+  ObjectEntry _reserved3[13];
+  ObjectEntry hiddenExit;
+  ObjectEntry fruitBowl;  // set to hourglass in later versions
+  ObjectEntry arrow;
+  ObjectEntry _reserved4[2];
+  ObjectEntry key;
+  ObjectEntry pillLethargy;
+  ObjectEntry pillBounce;
+  ObjectEntry pillInvincibility;
+  ObjectEntry hourglass;
+  ObjectEntry gem;
+  ObjectEntry coin;
+  ObjectEntry sunglasses;     // set to arrow in later versions
+  ObjectEntry presentPurple;  // set to arrow in later versions
+  ObjectEntry presentRed;     // set to arrow in later versions
+  ObjectEntry presentYellow;  // set to arrow in later versions
+  ObjectEntry unusedEnemy;
+  ObjectEntry apple;
+  ObjectEntry watermelon;
+  ObjectEntry pumpkin;
+  ObjectEntry banana;
+  ObjectEntry strawberry;
+  ObjectEntry presentBlue;   // set to arrow in later versions
+  ObjectEntry presentGreen;  // set to arrow in later versions
+}
 
-Each offset is **relative** to a specific offset:
+// Object Entry with Variants - 0x40 bytes
+struct ObjectEntry {
+  VariantOffsets lod1;  // highest-quality variant offsets
+  VariantOffsets lod2;  // medium-quality variant offsets
+  VariantOffsets lod3;  // lowest-quality variant offsets
+  i32 _reserved[4] = [-1, -1, -1, -1];
+}
 
-- Entity offsets are relative from **0x3C**.
-- Object offsets are relative from **0x1CC**.
+// Variant Offsets - 0x10 bytes
+struct VariantOffsets {
+  i32 variant1;
+  i32 variant2;
+  i32 variant3;
+  i32 variant4;
+}
+```
 
 ## Model Data
 
-```c
-struct ModelData_t {
-    short unknown;
-    short unknown;
-    short unknown;
-    short unknown;
-    short stp_blend_operator;
-    short unknown;
-    int32_t unknown; // set to 24 for objects, 28 for balls
-    IndexBuffer_t index_buffer;
-    VertexBuffer_t vertex_buffer;
-};
+Each model blob immediately follows the model table and is referenced by an offset stored in the entity or object table.
 
-struct IndexBuffer_t {
-    int32_t size;
-    int32_t unknown;
-    char indices[size - 32];
-    int32_t unknown = 1;
-    int32_t unknown = 0;
-};
-
-typedef struct {
-    int32_t vertexBufferCount = 1; // vertex buffer count (32 for moving spike)
-    int32_t size; // size of vertices section
-    struct IndexBuffer_t {
-        short x1;
-        short y1;
-        short x2;
-        short y2;
-        short x3;
-        short y3;
-        short z1;
-        short z2;
-        short z3;
-        short padding = 0;
-    } vertices[][];
-} VertexBuffer_t;
-
-typedef struct {
-    int32_t unknown = 1;
-    int32_t size; // size of vertex colors section
-    struct VertexColor_t {
-        char r;
-        char g;
-        char b;
-        char vFlags;
-    } vertex_colors[size / 4]; // 4 bytes
-} VertexColors_t;
+```bstruct
+struct ModelData {
+  i16 _unknown0[4];
+  i16 stpBlendOperator;
+  i16 _unknown1;
+  i32 _unknownType;           // 28 = ball, 24 = all other objects
+  i32 vertexBufferOffset;     // relative from start of model data
+  i32 vertexAttributeOffset;  // relative from start of model data
+  IndexBuffer indexBuffer;
+  VertexBuffer vertexBuffer;
+  VertexAttributeBuffer vertexAttributeBuffer;
+}
 ```
 
-Not every model in the game has a vertex count in multiples of three. Since the vertex position buffer of a model is grouped into **threes**, the leftover vertex positions are set to **0**. For example, the _arrow model_.
+### Index Buffer
 
-### Vertex Flags
+```bstruct
+struct IndexBuffer {
+  IndexRecord primitives[];  // (vertexBufferOffset - 32) / 4 records
+  i32 _trailer0 = 1;
+  i32 _trailer1 = 0;
+}
 
-Each vertex color attribute contains an extra byte with flags that specifies additional information about the vertex (vFlags):
+// 4 bytes
+struct IndexRecord {
+  u8 a;  // vertex group index for corner A
+  u8 b;  // vertex group index for corner B
+  u8 c;  // vertex group index for corner C
+  u8 d;  // vertex group index for corner D (quads only; set to 0 for triangles)
+}
+```
 
-| Bit | Type               |
-| --- | ------------------ |
-| 1   | Unused (0)         |
-| 2   | Unused (0)         |
-| 3   | Unused (1)         |
-| 4   | Unknown            |
-| 5   | Tri (0) / Quad (1) |
-| 6   | Unused (0)         |
-| 7   | Transparent        |
-| 8   | Unused (0)         |
+### Vertex Buffer
 
-## Hourglass Sprite Animation
+Vertices are stored in groups of 3, with the X/Y coordinates of each vertex in the group interleaved before the Z coordinates.
+One sentinel group (0xFF x 20) terminates the buffer.
 
-There is a section dedicated to the hourglass flip animation that is **1920** bytes in size. This animation data is the exact same across all known GGI files.
+```bstruct
+struct VertexBuffer {
+  i32 frameCount;
+  i32 frameSize;
+  VertexGroup frames[frameCount][frameSize];
+}
 
-## Unknown Section 1
+struct VertexGroup {
+  i16 x0, y0;      // XY of vertex 0
+  i16 x1, y1;      // XY of vertex 1
+  i16 x2, y2;      // XY of vertex 2
+  i16 z0, z1, z2;  // Z of vertices 0, 1, 2
+  i16 _padding;    // always 0
+}
+```
 
-This section is currently unknown, and seems to affect block lighting. It is **8192** bytes in size, and is also the exact same across all known GGI files.
+### Vertex Attribute Buffer
 
-## Unknown Section 2
+Each primitive consumes 4 records (all 4 used for quads; 3 used + 1 padding for triangles).
 
-This section is also unknown, and does not seem to be referenced in later releases of the game. It is also **8192** bytes in size, and is also the exact same across all known GGI files.
+```bstruct
+struct VertexAttributeBuffer {
+  i32 _unconfirmedCount = 1;
+  i32 dataSize;
+  VertexAttribute attributes[dataSize / 4];
+}
+
+struct VertexAttribute {
+  u8 r;         // special case here (see below)
+  u8 g;
+  u8 b;
+  u8 primFlag;  // non-zero for the first record of a primitive; see table below
+}
+```
+
+**Important:** If the `r` value is an even number, the face will be rendererd on both sides.
+This is used on the apple for example, to make the stem visible from all angles.
+
+The first record of each primitive carries a non-zero `primFlag` identifying different options for the primitive; all subsequent records have this value set to 0.
+
+| Flag Bit | Description               |
+| -------- | ------------------------- |
+| 0        | Unused (0)                |
+| 1        | Unused (0)                |
+| 2        | Always set                |
+| 3        | Connected                 |
+| 4        | Type (0=Triangle, 1=Quad) |
+| 5        | Unused (0)                |
+| 6        | Transparent               |
+| 7        | Unused (0)                |
+
+## Hourglass Animation
+
+There is a section the immediately follows the model data that contains hourglass flip animation data that is 0x780 bytes long.
+This animation data is the exact same across all known GGI files.
+
+## Depth Cue Lookup Table
+
+This section immediately follows the hourglass animation data, and contains **4096** 16-bit values.
+It provides a non-linear mapping from camera angle components to lighting weight, simulating directional ambient light that changes based on the camera's orientation.
+
+## Unknown Section
+
+This section is very similar to the depth cue lookup table, also consisting of **4096** 16-bit values.
+However, it does not seem to be referenced in later releases of the game, and is the same across all known GGI files.
 
 ## Dummy Section
 
-This section contains the text "dummy!!!\r\n\r\n".
+For an unknown reason, this section just contains the text, `"dummy!!!\r\n\r\n"`.
 
-## Ball Animation Section
+## Jump Animation
 
-```c
-struct RelativePositionOffset_t {
-    short x;
-    short y;
-    short z;
-};
+This section contains position data for the jump animation, including the arc of the ball during a forward jump.
+Each short position value offsets the ball in that relative direction.
 
-struct BallAnim_t {
-    short anim_frames;
-    short padding[3];
-    short y_start;
-    short z_start;
-    RelativePositionOffset_t position_offsets[anim_frames - 1];
-};
+```bstruct
+struct JumpAnimation {
+  i16 frameCount;
+  i16 _padding[3] = [0, 0, 0];
+  AnimationFrame frames[frameCount - 1];
+  i16 endPadding[];  // used for alignment and in-place jump return (see below)
+}
 
-struct BallAnim_t {
-    short anim_frames;
-    short padding[3];
-    short y_start;
-    short z_start;
-    RelativePositionOffset_t position_offsets[];
-    short x_end;
-};
+struct AnimationFrame {
+  i16 vz;      // displacement on gravity axis (positive = up)
+  i16 vx = 0;  // displacement on right axis (rightVec)
+  i16 vy;      // displacement on negative facing axis (negative = forward)
+}
 ```
 
-This section contains data relating to the ball jumping, including jumping forward. Each short position value offsets the ball in that relative direction. Here's an example of the first and last 4 frames of animation from Kula World:
+This section holds a **pre-baked jump arc**; a sequence of absolute displacement vectors, one per game frame.
+This helps save CPU by not having to calculate the ball's 3D arc during a jump on the fly.
 
-```
-0 0 0 (y_start and z_start)
--48 61 0
--96 117 0
--142 168 0
-...
--941 158 0
--969 110 0
--997 56 0
--1024 0 0
-```
+For **forward jumps**, the game applies the (z, x, y) values directly to the jump's starting coordinate as absolute offsets.
+Once the animation ends, it stops reading the table and snaps the ball exactly 2 blocks forward for perfect alignment.
+To save memory, the game reuses the same data for **in-place jumps** as well, calculating the vertical velocity frame-by-frame by subtracting the current `z` position from the _next_ frame's `z` position (`delta_z = next_z - current_z`).
 
-The Y and Z position start of at 0, and each frame the relative X position is decremented when jumping forward and the Y is incremented for height. At the end of the animation, the Y starts decrementing again until it reaches 0, back to its original position and thus landing the ball.
+The end padding serves 2 purposes, and there must be at least 1:
 
-This section was updated for the Roll Away release, with the animation lasting longer and going slightly into the floor upon landing. This is what causes the [floor clip glitch](https://youtu.be/G6RH7ERGCtI?t=105) in Roll Away.
+1. It provides a `z = 0` value for the final frame of the in-place jump delta, ensuring the ball returns back onto the floor to its normal height.
+2. It pads the total chunk size to a multiple of 4 bytes for alignment purposes. There may be more than one for proper alignment.
+
+Here's an example of the first and last 4 frames of animation from **Kula World**:
+
+| Frame | Height Offset (vz) | Side Offset (vx) | Forward Offset (vy) |
+| ----- | ------------------ | ---------------- | ------------------- |
+| 1     | 0                  | 0                | -48                 |
+| 2     | 61                 | 0                | -96                 |
+| 3     | 117                | 0                | -142                |
+| 4     | 168                | 0                | -188                |
+| ...   | ...                | ...              | ...                 |
+| 24    | 203                | 0                | -941                |
+| 25    | 158                | 0                | -969                |
+| 26    | 110                | 0                | -997                |
+| 27    | 56                 | 0                | -1024               |
+
+This section was updated for the **Roll Away** release, with the animation lasting longer and going slightly into the floor upon landing, which is why the [floor clip glitch](https://youtu.be/G6RH7ERGCtI?t=105) exists in this version.
 
 ## Sprites
 
-The first value in the sprite section is the amount of sprites (int32_t). Immediately following this value are all the sprites, which use the following structures:
+```bstruct
+struct SpriteSheet {
+  i32 count;
+  Sprite sprites[count];
+}
 
-```c
-struct Sprite_t {
-    short bpp;
-    short blend_op;
-    CLUT_t clut;
-    Texture_t texture;
-};
+struct Sprite {
+  i16 bpp;
+  i16 stpBlendOperator;
+  SpriteCLUT clut;
+  SpriteTextureData textureData;
+}
 
-struct CLUT_t {
-    short vram_x;
-    short vram_y;
-    short use_prev;
-    short padding = 0;
-    if (bpp != 16) {
-        short data[bpp == 8 ? 256 : 16];
-    }
-};
+struct SpriteCLUT {
+  i16 vramX;
+  i16 vramY;
+  i16 reuseClut;
+  i16 padding = 0;
+  <IF bpp IS NOT 16>
+    i16 data[bpp == 8 ? 256 : 16];
+  </IF>
+}
 
-struct Texture_t {
-    short vram_x;
-    short vram_y;
-    short width; // actual width, not in framebuffer pixels
-    short height;
-    if (bpp != 16) {
-        char data[bpp == 8 ? (width * height) : (width * height) / 2];
-    } else {
-        short data[width * height];
-    }
-};
+struct SpriteTextureData {
+  i16 vramX;
+  i16 vramY;
+  i16 width;  // actual width, not in framebuffer pixels
+  i16 height;
+  <IF bpp IS 16>
+    i16 data[width * height];
+  <ELSE>
+    u8 data[bpp == 8 ? (width * height) : (width * height) / 2];
+  </IF>
+}
 ```
 
-After each sprite's texture, there **may** be extra bytes (which some contain garbage data) to align to the 4 byte boundary.
+After each sprite's texture data, there _may_ be extra bytes (which some contain garbage data) to align to the 4 byte boundary.
 
-When a sprite uses **16 bits per pixel**, each pixel is represented directly using 16 bit color instead of a color lookup table (CLUT), and therefore the values for the associated CLUT are set to **-1** in this bit depth (different in the first demo, see below). The only sprite that uses this bit depth is a 2x1 completely white sprite, and its current use in game is **unknown**.
+When a sprite uses **16 bits per pixel**, each pixel is represented directly using 16 bit color instead of a color lookup table (CLUT), and therefore the values for the its `clut` field are set to -1 (different in the earliest demo, see below).
+The only sprite that uses this bit depth is a 2x1 completely white sprite, and its current use in game is **unknown**.
 
-Unique to only the first demo of the game (Kula Quest beta), the 4 CLUT values for a 16 bit sprite are not included, thus after the **bpp and blend operator** values starts the **Texture_t** structure.
+Unique to only the earliest demo of the game (_KulaQuest_) the 4 CLUT values for a 16-bit sprite are not included.
+Thus, after the bpp and blend operator values, starts the texture data immediately.

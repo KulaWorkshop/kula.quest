@@ -8,7 +8,7 @@ description: 'A database containing every known object and their properties.'
 
 ## Overview
 
-There are many different types of objects in Kula Quest, each with their own set of properties.
+There are many different types of objects in KulaQuest, each with their own set of properties.
 Here is a complete table of every known object to exist:
 
 | ID(h) | Name                  | Direction                           | Variant                | State                 | Appearance   |

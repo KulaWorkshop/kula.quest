@@ -9,7 +9,7 @@ description: 'A custom binary format for storing level information.'
 <div class="tip custom-block !pt-2">
 
 This document contains information about the format structure of level files.
-If you are interested in using tools to create your own, please visit [here](https://example.com).
+If you are interested in using tools to create your own, please visit [here](https://kula.quest).
 
 </div>
 
@@ -18,7 +18,7 @@ If you are interested in using tools to create your own, please visit [here](htt
 
 ## Overview
 
-Kula Quest uses a custom binary format for storing level data.
+KulaQuest uses a custom binary format for storing level data.
 This format does not have its own file extension, and is mostly the same across all versions of the games with slight differences.
 
 All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness), and the following data types will be used:
@@ -461,7 +461,7 @@ This property has the type **666**, but is not tied to any block.
 | +0x0E     | 242  | -              | Padding             |
 
 ::: info
-Some levels do not contain this property, notably the [first alpha Kula Quest demo](#version-differences).
+Some levels do not contain this property, notably the [first alpha KulaQuest demo](#version-differences).
 This property is not required, so the game will default to specific values
 if this property is not present.
 :::
@@ -474,7 +474,7 @@ Based on my research, there is evidence to suggest that the position value is le
 
 1. A fruit was accidentally placed in Kula World's FINAL 3 level.
    When this fruit was removed in the next version of the game, the position value just so happened to update to the removed fruit's block position.
-2. A change was made for LEVEL 133 on the Kula Quest release to the green gem where it was moved from the fire block to in front of the key.
+2. A change was made for LEVEL 133 on the KulaQuest (Japan) release to the green gem where it was moved from the fire block to in front of the key.
    The unknown position value also updated to the block that the gem was moved to.
 3. In the first level of the game, this position value points to the block that contains the farther right bronze coin, which happened to be moved forward and changed from a gold to a bronze coin from earlier versions of the game.
 
@@ -512,7 +512,7 @@ else {
 
 _Kula World and Roll Away function the same here, so Roll Away is used as an example._
 
-In Kula Quest, the time is calculated by multiplying this value by **60**, which is the framerate of the NTSC version.
+In KulaQuest (Japan), the time is calculated by multiplying this value by **60**, which is the framerate of the NTSC version.
 An additional check was added if the value is **5940**, which is the maximum time value (99) and is set to **7140** if so to allow additional level time:
 
 ```c

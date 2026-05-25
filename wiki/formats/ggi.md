@@ -130,7 +130,7 @@ struct EntityEntry {
   i32 lod1;            // highest quality
   i32 lod2;            // medium quality
   i32 lod3;            // lowest quality
-  i32 _reserved = -1;  // a 4th LOD offset is available in older demo versions
+  i32 _reserved = -1;  // 4th LOD in older versions (see version differences)
 }
 ```
 
@@ -206,11 +206,26 @@ struct ModelData {
   i32 _unknownType;           // 28 = ball, 24 = all other objects
   i32 vertexBufferOffset;     // relative from start of model data
   i32 vertexAttributeOffset;  // relative from start of model data
+  <IF _unknownType IS 28>
+    i32 vertexBuffer2Offset;  // relative from start of model data
+  </IF>
   IndexBuffer indexBuffer;
   VertexBuffer vertexBuffer;
   VertexAttributeBuffer vertexAttributeBuffer;
+  <IF _unknownType IS 28>
+    VertexBuffer vertexBuffer2;
+  </IF>
 }
 ```
+
+For an unknown reason, the ball models specifically contain a **second** vertex buffer after the vertex attribute buffer.
+
+<img src="/images/ggi/ball-comparison.png" alt="A smaller and larger ball model" width="400px" />
+
+The second vertex buffer creates a significantly larger version of the original model, as seen on the right.
+Upon completely nullifying this extra section, the model becomes darker in game, suggesting that this extra buffer may have something to do with lighting:
+
+<img src="/images/ggi/ball-darker.png" alt="A darker version of Hiro's ball" width="400px" />
 
 ### Index Buffer
 
@@ -221,7 +236,7 @@ struct IndexBuffer {
   i32 _trailer1 = 0;
 }
 
-// 4 bytes
+// Index Record - 0x04 bytes
 struct IndexRecord {
   u8 a;  // vertex group index for corner A
   u8 b;  // vertex group index for corner B
@@ -242,6 +257,7 @@ struct VertexBuffer {
   VertexGroup frames[frameCount][frameSize];
 }
 
+// Vertex Group - 0x14 bytes
 struct VertexGroup {
   i16 x0, y0;      // XY of vertex 0
   i16 x1, y1;      // XY of vertex 1
@@ -262,6 +278,7 @@ struct VertexAttributeBuffer {
   VertexAttribute attributes[dataSize / 4];
 }
 
+// Vertex Attribute - 0x04 bytes
 struct VertexAttribute {
   u8 r;         // special case here (see below)
   u8 g;
@@ -299,7 +316,7 @@ It provides a non-linear mapping from camera angle components to lighting weight
 ## Unknown Section
 
 This section is very similar to the depth cue lookup table, also consisting of **4096** 16-bit values.
-However, it does not seem to be referenced in later releases of the game, and is the same across all known GGI files.
+However, it does not seem to be referenced in any version of the game, and is the same across all known GGI files.
 
 ## Dummy Section
 
@@ -373,7 +390,7 @@ struct SpriteCLUT {
   i16 vramY;
   i16 reuseClut;
   i16 padding = 0;
-  <IF bpp IS NOT 16>
+  <IF NOT reuseClut AND bpp IS NOT 16>
     i16 data[bpp == 8 ? 256 : 16];
   </IF>
 }
@@ -395,6 +412,39 @@ After each sprite's texture data, there _may_ be extra bytes (which some contain
 
 When a sprite uses **16 bits per pixel**, each pixel is represented directly using 16 bit color instead of a color lookup table (CLUT), and therefore the values for the its `clut` field are set to -1 (different in the earliest demo, see below).
 The only sprite that uses this bit depth is a 2x1 completely white sprite, and its current use in game is **unknown**.
+Unique to only the earliest version of the game, the 4 CLUT values for a 16-bit sprite are [not included](#alpha-version).
 
-Unique to only the earliest demo of the game (_KulaQuest_) the 4 CLUT values for a 16-bit sprite are not included.
-Thus, after the bpp and blend operator values, starts the texture data immediately.
+## Version Differences
+
+In the first two demo versions, a 4th LOD value is utilized in the entity table.
+It's also worth noting that the these two versions use the same model for all 4 levels-of-detail for entity models.
+
+### Alpha Version
+
+In the earliest demo version, the entire format is compressed using the [lzrw3a](/tools/quilt#alpha-compression), the same compression algorithm used in [.KUB](/formats/kub) files.
+Once uncompressed, the format has the following differences:
+
+- There are only **3** sprite count values instead of 6. The 3rd count pertains to only the lens flare sprites, as the menu background images had not yet existed.
+- A value of `0xA` is used instead of `0xD` when decoding the two table offsets at the end of the header:
+
+```c
+// decoding the 2 table offsets (first demo version)
+offsetEntityTable = ((rawOffsetEntityTable >> 2) + 0xA) * 4;  // entity table is at offset 0x30
+offsetObjectTable = ((rawOffsetObjectTable >> 2) + 0xA) * 4;  // object table is at offset 0xE0
+```
+
+- Balls do **not** contain a second vertex buffer in this version. This _may_ be a factor in why you're able to replace the ball model with the slow star model without crashing the game.
+- The 4 CLUT values for a 16-bit sprite are not included. Thus, the texture data immediately follows after the bpp and blend operator values.
+
+### Beta Version
+
+This version's format is pretty similar to the modern format, with only slight differences:
+
+- There are only **5** sprite count values instead of 6.
+- A value of `0xC` is used instead of `0xD` when decoding the two table offsets at the end of the header:
+
+```c
+// decoding the 2 table offsets (second demo version)
+offsetEntityTable = ((rawOffsetEntityTable >> 2) + 0xC) * 4;  // entity table is at offset 0x38
+offsetObjectTable = ((rawOffsetObjectTable >> 2) + 0xC) * 4;  // object table is at offset 0x1C8
+```

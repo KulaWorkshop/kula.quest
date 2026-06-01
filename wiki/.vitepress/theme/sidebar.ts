@@ -39,7 +39,7 @@ const sidebar: DefaultTheme.Sidebar = [
 		]
 	},
 	{
-		text: 'Formats',
+		text: 'File Formats',
 		link: '/formats',
 		items: [
 			{

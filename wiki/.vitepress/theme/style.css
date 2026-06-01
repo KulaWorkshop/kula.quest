@@ -9,7 +9,7 @@
 	--card-link-bg: #18181b;
 	--card-link-bg-hover: #27272a;
 }
-/* Container styling - stays the same */
+
 .binary-struct {
 	background-color: var(--vp-code-block-bg);
 	border-radius: 8px;
@@ -18,18 +18,16 @@
 	overflow-x: auto;
 }
 
-/* Force higher specificity by prefixing with .vp-doc */
 .vp-doc .binary-struct table {
 	width: 100%;
 	margin: 0;
 	font-family: var(--vp-font-family-mono);
 	font-size: 0.875rem;
 	border-collapse: collapse;
-	background-color: transparent !important; /* Strips the default table background */
-	display: table !important; /* Fixes block layout issues */
+	background-color: transparent !important;
+	display: table !important;
 }
 
-/* Strip all borders and alternating backgrounds from rows and cells */
 .vp-doc .binary-struct table tr,
 .vp-doc .binary-struct table th,
 .vp-doc .binary-struct table td,
@@ -44,7 +42,6 @@
 	text-align: left;
 }
 
-/* Add the subtle bottom border to the header back in */
 .vp-doc .binary-struct th {
 	color: var(--vp-c-text-2);
 	font-weight: 600;
@@ -52,7 +49,6 @@
 	padding-bottom: 4px;
 }
 
-/* Optional: Offset and Type columns */
 .vp-doc .binary-struct td:nth-child(1),
 .vp-doc .binary-struct td:nth-child(3) {
 	color: var(--vp-c-brand-1);
@@ -68,6 +64,5 @@
 	margin-top: 0px;
 	margin-bottom: 10px;
 	margin-right: 8px;
-	/* text-align: center; */
 	display: inline-block;
 }

@@ -1,14 +1,14 @@
-# Formats
-
-Technical specifications are available for most of KulaQuest's custom binary formats.
+# File Formats
 
 ## Overview
 
-<div class="flex flex-col gap-4">
-    <CardLink name="Pak Format" description="An archive format for storing multiple files." link="/formats/pak" />
-    <CardLink name="Kub Format" description="An archive format for storing multiple files in the oldest demo." link="/formats/kub" />
-    <CardLink name="Level Format" description="A binary format for storing level data." link="/formats/level" />
-    <CardLink name="SFX Format" description="A binary format for storing sound information." link="/formats/sfx" />
-    <CardLink name="TGI Format" category="In Progress" description="A binary format for storing theme information." link="/formats/tgi" />
-    <CardLink name="GGI Format" category="In Progress" description="A binary format for storing model and sprite information." link="/formats/ggi" />
-</div>
+Technical specifications are available for all of KulaQuest's custom binary formats:
+
+| Format                         | Extension  | Description                                                                 |
+| ------------------------------ | ---------- | --------------------------------------------------------------------------- |
+| [PAK Archive](/formats/pak)    | .PAK       | An archive format for storing multiple compressed files.                    |
+| [KUB Archive](/formats/kub)    | .KUB, .PIC | An archive format for storing multiple compressed files in the oldest demo. |
+| [SFX Format](/formats/sfx)     | .SFX       | An archive format for storing sound effect data.                            |
+| [TGI Format](/formats/tgi)     | .TGI       | An archive format for storing theme-specific assets.                        |
+| [GGI Format](/formats/ggi)     | .GGI       | An archive format for storing global game assets.                           |
+| [Level Format](/formats/level) | _None_     | A binary format for storing individual level data.                          |

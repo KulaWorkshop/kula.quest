@@ -33,12 +33,6 @@ All values are in [**little endian**](https://en.wikipedia.org/wiki/Endianness),
 
 ## Structure
 
-```bstruct
-struct TGIFile {
-  Header header;
-}
-```
-
 <div class="binary-struct">
 
 | Offset(h) | Size   | Type               | Description                      |
@@ -160,7 +154,7 @@ As previously mentioned, there are **24** groups in total for tile textures, wit
 
 ![The tile textures](/images/tgi/tile-groups.png)
 
-> Image courtesy of [Murphy](https://github.com/murphy28/).
+> A diagram of the tile texture groups, courtesy of [Murphy](https://github.com/murphy28/).
 
 However, there are **significantly** more CLUTs for mipmap textures, as these CLUTs provide the fog effects when viewing blocks in the levels from a distance.
 While the 64x64 tiles **always** have a total of 72 CLUTs, the mipmap textures have varying amounts depending on how much detail is needed to simulate the fog effect.

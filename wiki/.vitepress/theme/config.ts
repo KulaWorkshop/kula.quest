@@ -16,11 +16,8 @@ export const themeConfig: DefaultTheme.Config = {
 			items: [
 				{
 					text: 'Other Sites',
-					items: [{ text: 'Main Homepage', link: 'https://kula.quest' }]
-				},
-				{
-					text: 'Socials',
 					items: [
+						{ text: 'Main Homepage', link: 'https://kula.quest' },
 						{
 							text: 'GitHub',
 							link: 'https://github.com/KulaWorkshop/'

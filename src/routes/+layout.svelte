@@ -3,6 +3,7 @@
 	import Favicon from '$lib/assets/favicon.svg';
 	import Logo from '$lib/assets/logo.svg';
 	import Book from '@lucide/svelte/icons/book';
+	import MessagesSquare from '@lucide/svelte/icons/messages-square';
 	import { resolve } from '$app/paths';
 
 	let { children } = $props();
@@ -21,10 +22,18 @@
 			<img class="w-28 sm:w-32" width="128" src={Logo} alt="KulaQuest" />
 		</a>
 
-		<a
-			class="flex shrink-0 items-center rounded-xl bg-neutral-200 px-4 py-2 text-xs font-semibold text-neutral-950 transition-colors hover:bg-neutral-400 sm:px-5 sm:text-sm"
-			href="https://wiki.kula.quest"><Book strokeWidth={2.5} class="mr-2 h-4 w-4" /> Wiki</a
-		>
+		<div class="flex gap-3">
+			<a
+				class="flex shrink-0 items-center rounded-xl bg-neutral-200 px-4 py-2 text-xs font-semibold text-neutral-950 transition-colors hover:bg-neutral-300 sm:px-5 sm:text-sm"
+				href="https://wiki.kula.quest"><Book strokeWidth={2.5} class="mr-2 h-4 w-4" /> Wiki</a
+			>
+
+			<a
+				class="flex shrink-0 items-center rounded-xl border border-neutral-700/50 bg-neutral-900 px-4 py-2 text-xs font-semibold text-neutral-100 transition-colors hover:bg-neutral-800 sm:px-5 sm:text-sm"
+				href="https://forum.kula.quest"
+				><MessagesSquare strokeWidth={2.5} class="mr-2 h-4 w-4" /> Forum</a
+			>
+		</div>
 	</header>
 
 	<main class="w-full flex-1">

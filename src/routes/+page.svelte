@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DeprecatedProject from '$lib/components/deprecated-project.svelte';
+	import { MessagesSquare } from '@lucide/svelte';
 	import Book from '@lucide/svelte/icons/book';
 	import LayoutGrid from '@lucide/svelte/icons/layout-grid';
 	import Package from '@lucide/svelte/icons/package';
@@ -40,6 +41,14 @@
 				</a>
 
 				<a
+					class="forum-glow flex w-full items-center justify-center gap-2 rounded-xl px-5 py-2 text-sm font-medium text-neutral-100 sm:w-auto"
+					href="https://forum.kula.quest"
+					target="_blank"
+				>
+					<MessagesSquare strokeWidth={2.5} class="size-5" />Visit Forum
+				</a>
+
+				<a
 					class="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-700/50 bg-neutral-900 px-5 py-2 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-800 sm:w-auto"
 					href="https://github.com/KulaWorkshop/"
 					target="_blank"
@@ -60,7 +69,7 @@
 		>
 			Legacy Tools
 		</h2>
-		<p class="mt-3 text-base leading-relaxed font-medium text-neutral-400 sm:text-lg">
+		<p class="mt-4 text-base leading-relaxed font-medium text-neutral-400 sm:text-lg">
 			These tools are no longer maintained and are not recommended for use, but are still available
 			on our <a
 				href="https://legacy.kula.quest/"
@@ -129,10 +138,17 @@
 		inherits: false;
 	}
 
+	@property --wiki-fill {
+		syntax: '<color>';
+		initial-value: #eee;
+		inherits: false;
+	}
+
 	.rainbow-border {
+		--wiki-fill: #eee;
 		border: 2px solid transparent;
 		background:
-			linear-gradient(#eee, #eee) padding-box,
+			linear-gradient(var(--wiki-fill), var(--wiki-fill)) padding-box,
 			conic-gradient(
 					from var(--wiki-rainbow-angle),
 					#ff006e,
@@ -145,12 +161,51 @@
 				border-box;
 		background-origin: padding-box, border-box;
 		background-clip: padding-box, border-box;
-		animation: wiki-rainbow-angle 3.5s linear infinite;
+		animation: wiki-rainbow-angle 4.667s linear infinite;
+		transition: --wiki-fill 0.2s ease;
+	}
+
+	.rainbow-border:hover {
+		--wiki-fill: #d4d4d4;
 	}
 
 	@keyframes wiki-rainbow-angle {
 		to {
 			--wiki-rainbow-angle: 360deg;
+		}
+	}
+
+	@property --forum-fill {
+		syntax: '<color>';
+		initial-value: #171717;
+		inherits: false;
+	}
+
+	@property --forum-angle {
+		syntax: '<angle>';
+		initial-value: 0deg;
+		inherits: false;
+	}
+
+	.forum-glow {
+		--forum-fill: #171717;
+		border: 2px solid transparent;
+		background:
+			linear-gradient(var(--forum-fill), var(--forum-fill)) padding-box,
+			conic-gradient(from var(--forum-angle), #6366f1, #a855f7, #ec4899, #6366f1) border-box;
+		background-origin: padding-box, border-box;
+		background-clip: padding-box, border-box;
+		animation: forum-angle 4.667s linear infinite;
+		transition: --forum-fill 0.2s ease;
+	}
+
+	.forum-glow:hover {
+		--forum-fill: #262626;
+	}
+
+	@keyframes forum-angle {
+		to {
+			--forum-angle: 360deg;
 		}
 	}
 </style>
